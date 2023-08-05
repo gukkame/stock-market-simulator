@@ -28,11 +28,11 @@ class MainApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Map Markers',
         debugShowCheckedModeBanner: false,
-        initialRoute: '/stock',
+        initialRoute: '/stocks',
         routes: {
           '/login': (context) => LogIn(),
           '/signup': (context) => SignUp(),
-          '/stock': (context) => ViewStocks(),
+          '/stocks': (context) => ViewStocks(),
         },
       ),
     );
