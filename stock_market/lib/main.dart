@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'pages/authentication/login.dart';
 import 'pages/authentication/signup.dart';
+import 'pages/view_stocks.dart';
 import 'provider/user_provider.dart';
 import 'firebase_options.dart';
 
@@ -31,7 +32,7 @@ class MainApp extends StatelessWidget {
         routes: {
           '/login': (context) => LogIn(),
           '/signup': (context) => SignUp(),
-          // '/stock': (context) => ViewStock(),
+          '/stock': (context) => ViewStocks(),
         },
       ),
     );
