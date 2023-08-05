@@ -19,16 +19,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
     });
     switch (_selectedIndex) {
       case 0:
-        navigate(context, "/map");
+        navigate(context, "/stocks");
         break;
       case 1:
-        navigate(context, "/friend-list");
-        break;
-      case 2:
-        navigate(context, "/invite");
-        break;
-      case 3:
-        navigate(context, "/search");
+        navigate(context, "/porfolio");
         break;
     }
   }
@@ -46,20 +40,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
       selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.map),
-          label: 'Map',
+          icon: Icon(Icons.bar_chart),
+          label: 'Stock List',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.group),
-          label: 'Friends',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.email_outlined),
-          label: 'Invite',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.search),
-          label: 'Search',
+          icon: Icon(Icons.pie_chart),
+          label: 'Porfolio',
         ),
       ],
       onTap: _onItemTapped,
