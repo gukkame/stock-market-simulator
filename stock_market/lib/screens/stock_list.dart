@@ -8,7 +8,7 @@ import '../utils/colors.dart';
 import '../utils/user.dart';
 
 class StockList extends StatefulWidget {
-   const StockList({super.key});
+  const StockList({super.key});
 
   @override
   State<StockList> createState() => _StockListState();
@@ -41,8 +41,8 @@ class _StockListState extends State<StockList> {
                   for (var stock in allStocks)
                     StockField(
                       companyTitle: stock.symbol,
-                      buyPrice: stock.amount,
-                      sellPrice: stock.value,
+                      buyPrice: stock.price[0],
+                      sellPrice: stock.price[1],
                     )
                 else
                   _setInfoWidget
@@ -56,26 +56,136 @@ class _StockListState extends State<StockList> {
 
   void getStockList() {
     //!Fetch data from database|| CompanyName, Buy price, Sell price
-    allStocks.add(Stock("TSLA", Timestamp(43, 32), 4478.03, 4478.03));
-    allStocks.add(Stock("NVDA", Timestamp(43, 32), 234.3, 221.3));
-    allStocks.add(Stock("AAPL", Timestamp(43, 32), 541.2, 271.33));
-    allStocks.add(Stock("AAPL", Timestamp(43, 32), 2344.2, 2154.323));
-    allStocks.add(Stock("AAPL", Timestamp(43, 32), 241.2, 221.323));
-    allStocks.add(Stock("AAPL", Timestamp(43, 32), 221.2, 231.33));
-    allStocks.add(Stock("AAPL", Timestamp(43, 32), 91.2, 271.323));
-    allStocks.add(Stock("AAPL", Timestamp(43, 32), 341.2, 521.3));
-    allStocks.add(Stock("AAPL", Timestamp(43, 32), 71.2, 261.33));
-    allStocks.add(Stock("GOO10", Timestamp(43, 32), 23.2, 241.3));
-    allStocks.add(Stock("GOOGL", Timestamp(43, 32), 23.2, 241.3));
-    allStocks.add(Stock("GOOGL", Timestamp(43, 32), 23.2, 241.3));
-    allStocks.add(Stock("GOOGL", Timestamp(43, 32), 23.2, 241.3));
-    allStocks.add(Stock("GOOGL", Timestamp(43, 32), 23.2, 241.3));
-    allStocks.add(Stock("LLY", Timestamp(43, 32), 23.2, 241.3));
-    allStocks.add(Stock("PG", Timestamp(43, 32), 23.2, 241.3));
-    allStocks.add(Stock("PG", Timestamp(43, 32), 23.2, 241.3));
-    allStocks.add(Stock("CSCO", Timestamp(43, 32), 23.2, 241.3));
-    allStocks.add(Stock("PG", Timestamp(43, 32), 23.2, 241.3));
-    allStocks.add(Stock("PG20", Timestamp(43, 32), 23.2, 241.3));
+    allStocks.add(Stock(
+      symbol: "TSLA",
+      date: Timestamp(43, 32),
+      buyPrice: 4478.03,
+      sellPrice: 4478.03,
+    ));
+    allStocks.add(Stock(
+      symbol:"NVDA",
+      date:Timestamp(43, 32),
+      buyPrice:234.3,
+      sellPrice:221.3,
+    ));
+   
+    allStocks.add(Stock(
+      symbol: "TSLA",
+      date: Timestamp(43, 32),
+      buyPrice: 4478.03,
+      sellPrice: 4478.03,
+    ));
+    allStocks.add(Stock(
+      symbol:"NVDA",
+      date:Timestamp(43, 32),
+      buyPrice:234.3,
+      sellPrice:221.3,
+    ));
+   
+    allStocks.add(Stock(
+      symbol: "TSLA",
+      date: Timestamp(43, 32),
+      buyPrice: 4478.03,
+      sellPrice: 4478.03,
+    ));
+    allStocks.add(Stock(
+      symbol:"NVDA",
+      date:Timestamp(43, 32),
+      buyPrice:234.3,
+      sellPrice:221.3,
+    ));
+   
+    allStocks.add(Stock(
+      symbol: "TSLA",
+      date: Timestamp(43, 32),
+      buyPrice: 4478.03,
+      sellPrice: 4478.03,
+    ));
+    allStocks.add(Stock(
+      symbol:"NVDA",
+      date:Timestamp(43, 32),
+      buyPrice:234.3,
+      sellPrice:221.3,
+    ));
+   
+    allStocks.add(Stock(
+      symbol: "TSLA",
+      date: Timestamp(43, 32),
+      buyPrice: 4478.03,
+      sellPrice: 4478.03,
+    ));
+    allStocks.add(Stock(
+      symbol:"NVDA",
+      date:Timestamp(43, 32),
+      buyPrice:234.3,
+      sellPrice:221.3,
+    ));
+   
+    allStocks.add(Stock(
+      symbol: "TSLA",
+      date: Timestamp(43, 32),
+      buyPrice: 4478.03,
+      sellPrice: 4478.03,
+    ));
+    allStocks.add(Stock(
+      symbol:"NVDA",
+      date:Timestamp(43, 32),
+      buyPrice:234.3,
+      sellPrice:221.3,
+    ));
+   
+    allStocks.add(Stock(
+      symbol: "TSLA",
+      date: Timestamp(43, 32),
+      buyPrice: 4478.03,
+      sellPrice: 4478.03,
+    ));
+    allStocks.add(Stock(
+      symbol:"NVDA",
+      date:Timestamp(43, 32),
+      buyPrice:234.3,
+      sellPrice:221.3,
+    ));
+   
+    allStocks.add(Stock(
+      symbol: "TSLA",
+      date: Timestamp(43, 32),
+      buyPrice: 4478.03,
+      sellPrice: 4478.03,
+    ));
+    allStocks.add(Stock(
+      symbol:"NVDA",
+      date:Timestamp(43, 32),
+      buyPrice:234.3,
+      sellPrice:221.3,
+    ));
+   
+    allStocks.add(Stock(
+      symbol: "TSLA",
+      date: Timestamp(43, 32),
+      buyPrice: 4478.03,
+      sellPrice: 4478.03,
+    ));
+    allStocks.add(Stock(
+      symbol:"NVDA",
+      date:Timestamp(43, 32),
+      buyPrice:234.3,
+      sellPrice:221.3,
+    ));
+   
+    allStocks.add(Stock(
+      symbol: "TSLA",
+      date: Timestamp(43, 32),
+      buyPrice: 4478.03,
+      sellPrice: 4478.03,
+    ));
+    allStocks.add(Stock(
+      symbol:"NVDA",
+      date:Timestamp(43, 32),
+      buyPrice:234.3,
+      sellPrice:221.3,
+    ));
+   
   }
 
   Widget get _title {

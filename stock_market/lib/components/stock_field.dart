@@ -9,7 +9,6 @@ class StockField extends StatefulWidget {
       required this.companyTitle,
       required this.sellPrice,
       required this.buyPrice});
-
   String companyTitle;
   double sellPrice;
   double buyPrice;
