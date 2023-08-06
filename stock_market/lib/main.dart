@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_market/pages/portfolio.dart';
 
 import 'pages/authentication/login.dart';
 import 'pages/authentication/signup.dart';
@@ -33,6 +34,7 @@ class MainApp extends StatelessWidget {
           '/login': (context) => LogIn(),
           '/signup': (context) => SignUp(),
           '/stocks': (context) => StockListPage(),
+          '/portfolio': (context) => PortfolioPage(),
         },
       ),
     );

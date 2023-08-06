@@ -16,7 +16,7 @@ class StockListPageState extends State<StockListPage> {
     return  Scaffold(
       appBar: AppBar(title: const Text("Stock List"),),
       body: const StockList(),
-      bottomNavigationBar: const BottomNavBar(index: 0),
+      bottomNavigationBar: const BottomNavBar(index: 1),
     );
   }
 }
