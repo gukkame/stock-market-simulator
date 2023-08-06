@@ -26,15 +26,15 @@ class _LogInState extends State<LogIn> {
 
   @override
   void initState() {
-    // widget.user
-    //     .signInUser(
-    //   email: "gukka@gmail.com",
-    //   password: "pass123",
-    // )
-    //     .then((value) {
-    //   _setUser();
-    //   _redirect();
-    // },);
+    widget.user
+        .signInUser(
+      email: "gukka@gmail.com",
+      password: "pass123",
+    )
+        .then((value) {
+      _setUser();
+      _redirect();
+    },);
     super.initState();
   }
 

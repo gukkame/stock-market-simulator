@@ -48,7 +48,7 @@ class _ViewStocksState extends State<ViewStocks> {
 
   void getStockList() {
     //!Fetch data from database|| CompanyName, Buy price, Sell price
-    allStocks.add(Stock("TSLA", Timestamp(43, 32), 234, 213));
+    // allStocks.add(Stock("TSLA", Timestamp(43, 32), 234, 213));
   }
 
   Widget get _setInfoWidget {
