@@ -3,14 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Stock {
   final String _symbol;
   final Timestamp _date;
-  final int _value;
-  final int _amount;
+  final double _value;
+  final double _amount;
 
   String get symbol => _symbol;
   Timestamp get date => _date;
-  int get value => _value;
-  int get amount => _amount;
-  int get price => value * amount;
+  double get value => _value;
+  double get amount => _amount;
+  double get price => value * amount;
 
   Map<String, dynamic> get data {
     return {
@@ -33,8 +33,8 @@ class Stock {
   Stock(
     String symbol,
     Timestamp date,
-    int value,
-    int amount,
+    double value,
+    double amount,
   )   : _symbol = symbol,
         _date = date,
         _value = value,

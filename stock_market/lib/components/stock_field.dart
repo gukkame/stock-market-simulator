@@ -1,8 +1,4 @@
-import 'dart:ffi';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:stock_market/utils/navigation.dart';
 
 import '../utils/colors.dart';
 import 'container.dart';
@@ -15,8 +11,8 @@ class StockField extends StatefulWidget {
       required this.buyPrice});
 
   String companyTitle;
-  int sellPrice;
-  int buyPrice;
+  double sellPrice;
+  double buyPrice;
   @override
   State<StockField> createState() => _StockFieldState();
 }
@@ -33,72 +29,70 @@ class _StockFieldState extends State<StockField> {
         const SizedBox(
           height: 20,
         ),
-        Flex(
-          direction: Axis.horizontal,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              flex: 3,
-              child: RoundedGradientContainer(
-                borderSize: 2,
-                child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          widget.companyTitle,
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey.shade800,
-                          ),
-                        ),
-                      ],
-                    )),
-              ),
-            ),
-            _transactionBtn,
-          ],
+        RoundedGradientContainer(
+          borderSize: 2,
+          child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    onTap: _onTitleTap,
+                    child: Text(
+                      widget.companyTitle,
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey.shade800,
+                      ),
+                    ),
+                  ),
+                  _transactionBtn,
+                ],
+              )),
         ),
       ],
     );
   }
 
-  void onTap(int option) {
-    if (option == 0) {
-      navigate(context, "/buy");
-    } else {
-      navigate(context, "/sell");
-    }
+  void _onTitleTap() {
+    debugPrint("Company tapped");
+    debugPrint(widget.companyTitle);
+    //  navigate(context, "/stock-info");
   }
 
   Widget get _transactionBtn {
     return Row(
       children: [
         for (int i = 0; i < 2; i++)
-          TextButton(
-            style: TextButton.styleFrom(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                alignment: Alignment.centerRight),
-            onPressed: () => onTap(i),
-            child: Container(
-              decoration: BoxDecoration(
-                  gradient: primeGradient,
-                  borderRadius: BorderRadius.circular(12.0)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0, vertical: 11.0),
-                child: Text(
-                  i == 0
-                      ? (widget.sellPrice).toString()
-                      : widget.buyPrice.toString(),
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0),
+          SizedBox(
+            width: 100,
+            height: 40,
+            child: FittedBox(
+              fit: BoxFit.fill,
+              child: TextButton(
+                style: TextButton.styleFrom(
+                    padding: const EdgeInsets.fromLTRB(0, 4, 10, 4),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    alignment: Alignment.centerRight),
+                onPressed: () => onTap(i),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: primeColorTrans,
+                      borderRadius: BorderRadius.circular(6.0)),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 23.0, vertical: 6.0),
+                    child: Text(
+                      i == 0
+                          ? (widget.sellPrice).toString()
+                          : widget.buyPrice.toString(),
+                      style: const TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -106,4 +100,15 @@ class _StockFieldState extends State<StockField> {
       ],
     );
   }
+
+   void onTap(int option) {
+    if (option == 0) {
+      debugPrint("Buy");
+      // navigate(context, "/buy");
+    } else {
+      debugPrint("Sell");
+      // navigate(context, "/sell");
+    }
+  }
+
 }

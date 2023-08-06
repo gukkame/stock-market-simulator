@@ -11,8 +11,8 @@ class RoundedGradientContainer extends StatelessWidget {
   const RoundedGradientContainer(
       {super.key,
       double borderSize = 5,
-      double outerBorderRadius = 12.0 + 3,
-      double innerBorderRadius = 12.0,
+      double outerBorderRadius = 6.0 + 3,
+      double innerBorderRadius = 6.0,
       LinearGradient? gradient,
       Widget? child})
       : _child = child,
