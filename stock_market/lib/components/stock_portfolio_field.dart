@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../utils/colors.dart';
 import 'container.dart';
 
 class StockPortfolioField extends StatefulWidget {
@@ -29,22 +27,23 @@ class _StockFieldState extends State<StockPortfolioField> {
         const SizedBox(
           height: 20,
         ),
-        RoundedGradientContainer(
-          borderSize: 2,
-          child: Padding(
-              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                
-                  _textStyle(widget.companyTitle, 18),
-          
-                  _textStyle(widget.amount.toString(),16),
-                  _textStyle(widget.amount.toString(),16),
-                  _textStyle(widget.sellPrice.toString(),16),
-                ],
-              )),
+        InkWell(
+          onTap: _onStockTap,
+          child: RoundedGradientContainer(
+            borderSize: 2,
+            child: Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _textStyle(widget.companyTitle, 18),
+                    _textStyle(widget.amount.toString(), 16),
+                    _textStyle(widget.amount.toString(), 16),
+                    _textStyle(widget.sellPrice.toString(), 16),
+                  ],
+                )),
+          ),
         ),
       ],
     );
@@ -69,19 +68,10 @@ class _StockFieldState extends State<StockPortfolioField> {
     );
   }
 
-  void _onTitleTap() {
+  void _onStockTap() {
     debugPrint("Company tapped");
     debugPrint(widget.companyTitle);
-    //  navigate(context, "/stock-info");
+    //  navigate(context, "/portfolio-stock");
   }
 
-  void onTap(int option) {
-    if (option == 0) {
-      debugPrint("Buy");
-      // navigate(context, "/buy");
-    } else {
-      debugPrint("Sell");
-      // navigate(context, "/sell");
-    }
-  }
 }

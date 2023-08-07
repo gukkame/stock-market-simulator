@@ -33,8 +33,8 @@ class MainApp extends StatelessWidget {
         routes: {
           '/login': (context) => LogIn(),
           '/signup': (context) => SignUp(),
-          '/stocks': (context) => StockListPage(),
-          '/portfolio': (context) => PortfolioPage(),
+          '/stocks': (context) => const StockListPage(),
+          '/portfolio': (context) => const PortfolioPage(),
         },
       ),
     );
