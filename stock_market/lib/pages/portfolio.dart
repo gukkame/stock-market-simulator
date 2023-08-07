@@ -14,7 +14,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
   @override
   Widget build(BuildContext context) {
      return  Scaffold(
-      appBar: AppBar(title: const Text("Stock List"),),
+      appBar: AppBar(title: const Text("Portfolio"),),
       body: const Portfolio(),
       bottomNavigationBar: const BottomNavBar(index: 2),
     );

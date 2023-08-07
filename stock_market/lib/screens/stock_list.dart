@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:stock_market/components/stock_field.dart';
+import 'package:stock_market/components/stock_market_field.dart';
 import 'package:stock_market/utils/stock.dart';
 
 import '../provider/provider_manager.dart';
@@ -39,7 +39,7 @@ class _StockListState extends State<StockList> {
               children: [
                 if (allStocks.isNotEmpty)
                   for (var stock in allStocks)
-                    StockField(
+                    StockMarketField(
                       companyTitle: stock.symbol,
                       buyPrice: stock.price[0],
                       sellPrice: stock.price[1],
