@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_market/pages/portfolio.dart';
+import 'package:stock_market/provider/provider_manager.dart';
+import 'package:stock_market/provider/stock_provider.dart';
 
 import 'pages/authentication/login.dart';
 import 'pages/authentication/signup.dart';
@@ -24,8 +26,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => UserDataProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserDataProvider()),
+        ChangeNotifierProvider(create: (_) => StockProvider()),
+        ChangeNotifierProvider(create: (_) => ProviderManager()),
+      ],
       child: MaterialApp(
         title: 'Map Markers',
         debugShowCheckedModeBanner: false,

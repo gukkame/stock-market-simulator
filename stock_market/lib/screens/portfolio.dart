@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../components/stock_portfolio_field.dart';
 import '../provider/provider_manager.dart';
 import '../utils/colors.dart';
-import '../utils/stock.dart';
+import '../utils/stock/user_stock.dart';
 import '../utils/user.dart';
 
 class Portfolio extends StatefulWidget {
@@ -17,7 +17,7 @@ class Portfolio extends StatefulWidget {
 class _PortfolioState extends State<Portfolio> {
   late User user;
   String errorMSg = "Stocks not found!";
-  List<Stock> allStocks = [];
+  List<UserStock> allStocks = [];
 
   @override
   void initState() {
@@ -56,45 +56,45 @@ class _PortfolioState extends State<Portfolio> {
 
   void getStockList() {
     //!Fetch data from database|| CompanyName, Amount, buyPrice(Calculate price now ))
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      amount: 342,
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol: "NVDA",
-      date: Timestamp(43, 32),
-      buyPrice: 234.3,
-      sellPrice: 221.3,
-    ));
+    // allStocks.add(UserStock(
+    //   symbol: "TSLA",
+    //   date: Timestamp(43, 32),
+    //   amount: 342,
+    //   buyPrice: 4478.03,
+    //   sellPrice: 4478.03,
+    // ));
+    // allStocks.add(UserStock(
+    //   symbol: "NVDA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 234.3,
+    //   sellPrice: 221.3,
+    // ));
 
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol: "NVDA",
-      date: Timestamp(43, 32),
-      buyPrice: 234.3,
-      sellPrice: 221.3,
-    ));
+    // allStocks.add(UserStock(
+    //   symbol: "TSLA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 4478.03,
+    //   sellPrice: 4478.03,
+    // ));
+    // allStocks.add(UserStock(
+    //   symbol: "NVDA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 234.3,
+    //   sellPrice: 221.3,
+    // ));
 
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol: "NVDA",
-      date: Timestamp(43, 32),
-      buyPrice: 234.3,
-      sellPrice: 221.3,
-    ));
+    // allStocks.add(UserStock(
+    //   symbol: "TSLA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 4478.03,
+    //   sellPrice: 4478.03,
+    // ));
+    // allStocks.add(UserStock(
+    //   symbol: "NVDA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 234.3,
+    //   sellPrice: 221.3,
+    // ));
 
     void _setErrorState(String msg) {
       errorMSg = msg;

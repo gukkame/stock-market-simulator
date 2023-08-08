@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stock_market/components/stock_market_field.dart';
-import 'package:stock_market/utils/stock.dart';
+import 'package:stock_market/utils/stock/user_stock.dart';
 
 import '../provider/provider_manager.dart';
 import '../utils/colors.dart';
@@ -17,7 +17,7 @@ class StockList extends StatefulWidget {
 class _StockListState extends State<StockList> {
   late User user;
   String errorMSg = "Stocks not found!";
-  List<Stock> allStocks = [];
+  List<UserStock> allStocks = [];
 
   @override
   void initState() {
@@ -56,136 +56,135 @@ class _StockListState extends State<StockList> {
 
   void getStockList() {
     //!Fetch data from database|| CompanyName, Buy price, Sell price
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
+    // allStocks.add(UserStock(
+    //   symbol: "TSLA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 4478.03,
+    //   sellPrice: 4478.03,
+    // ));
+    // allStocks.add(UserStock(
+    //   symbol: "NVDA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 234.3,
+    //   sellPrice: 221.3,
+    // ));
+
+    // allStocks.add(UserStock(
+    //   symbol: "TSLA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 4478.03,
+    //   sellPrice: 4478.03,
+    // ));
+    // allStocks.add(UserStock(
+    //   symbol: "NVDA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 234.3,
+    //   sellPrice: 221.3,
+    // ));
+
+    // allStocks.add(UserStock(
+    //   symbol: "TSLA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 4478.03,
+    //   sellPrice: 4478.03,
+    // ));
+    // allStocks.add(UserStock(
+    //   symbol: "NVDA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 234.3,
+    //   sellPrice: 221.3,
+    // ));
+
+    // allStocks.add(UserStock(
+    //   symbol: "TSLA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 4478.03,
+    //   sellPrice: 4478.03,
+    // ));
+    // allStocks.add(UserStock(
+    //   symbol: "NVDA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 234.3,
+    //   sellPrice: 221.3,
+    // ));
+
+    // allStocks.add(UserStock(
+    //   symbol: "TSLA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 4478.03,
+    //   sellPrice: 4478.03,
+    // ));
+    // allStocks.add(UserStock(
+    //   symbol: "NVDA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 234.3,
+    //   sellPrice: 221.3,
+    // ));
+
+    // allStocks.add(UserStock(
+    //   symbol: "TSLA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 4478.03,
+    //   sellPrice: 4478.03,
+    // ));
+    // allStocks.add(UserStock(
+    //   symbol: "NVDA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 234.3,
+    //   sellPrice: 221.3,
+    // ));
+
+    // allStocks.add(UserStock(
+    //   symbol: "TSLA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 4478.03,
+    //   sellPrice: 4478.03,
+    // ));
+    // allStocks.add(UserStock(
+    //   symbol: "NVDA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 234.3,
+    //   sellPrice: 221.3,
+    // ));
+
+    // allStocks.add(UserStock(
+    //   symbol: "TSLA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 4478.03,
+    //   sellPrice: 4478.03,
+    // ));
+    // allStocks.add(UserStock(
+    //   symbol: "NVDA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 234.3,
+    //   sellPrice: 221.3,
+    // ));
+
+    // allStocks.add(UserStock(
+    //   symbol: "TSLA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 4478.03,
+    //   sellPrice: 4478.03,
+    // ));
+    // allStocks.add(UserStock(
+    //   symbol: "NVDA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 234.3,
+    //   sellPrice: 221.3,
+    // ));
+
+    // allStocks.add(UserStock(
+    //   symbol: "TSLA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 4478.03,
+    //   sellPrice: 4478.03,
+    // ));
+    // allStocks.add(UserStock(
+    //   symbol: "NVDA",
+    //   date: Timestamp(43, 32),
+    //   buyPrice: 234.3,
+    //   sellPrice: 221.3,
+    // ));
   }
 
   Widget get _title {
