@@ -28,7 +28,7 @@ class _LogInState extends State<LogIn> {
   void initState() {
     widget.user
         .signInUser(
-      email: "gukka@gmail.com",
+      email: "laura@gmail.com",
       password: "pass123",
     )
         .then(
@@ -220,6 +220,7 @@ class _LogInState extends State<LogIn> {
   void _setUser() {
     ProviderManager().setUser(context, widget.user);
     ProviderManager().initStocks(context);
+    ProviderManager().initWallet(context);
   }
 
   void _redirect() {

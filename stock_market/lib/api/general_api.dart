@@ -1,5 +1,3 @@
 import 'api.dart';
 
-class GeneralApi extends Api {
-
-}
+class GeneralApi extends Api {}

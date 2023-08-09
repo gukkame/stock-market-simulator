@@ -29,6 +29,25 @@ class UserStock {
     );
   }
 
+  @override
+  bool operator ==(other) {
+    if (other is UserStock) {
+      return _symbol == other._symbol &&
+          _date == other._date &&
+          _value == other._value &&
+          _amount == other._amount;
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode {
+    return _symbol.hashCode ^
+        _date.hashCode ^
+        _value.hashCode ^
+        _amount.hashCode;
+  }
+
   UserStock({
     required String symbol,
     required Timestamp date,

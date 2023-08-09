@@ -11,7 +11,7 @@ class UserApi extends GeneralApi {
       await write(
         collection: "users",
         path: email,
-        data: {"email": Convert.encode(email), "name": name},
+        data: {"email": email, "name": name},
       );
       await write(
         collection: "wallet",

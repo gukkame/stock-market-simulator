@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:stock_market/pages/portfolio.dart';
 import 'package:stock_market/provider/provider_manager.dart';
 import 'package:stock_market/provider/stock_provider.dart';
+import 'package:stock_market/provider/wallet_provider.dart';
 
 import 'pages/authentication/login.dart';
 import 'pages/authentication/signup.dart';
@@ -31,6 +32,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserDataProvider()),
         ChangeNotifierProvider(create: (_) => StockProvider()),
         ChangeNotifierProvider(create: (_) => ProviderManager()),
+        ChangeNotifierProvider(create: (_) => WalletProvider()),
       ],
       child: MaterialApp(
         title: 'Map Markers',

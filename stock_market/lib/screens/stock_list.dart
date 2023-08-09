@@ -32,32 +32,30 @@ class _StockListState extends State<StockList> {
       child: Column(
         children: [
           _title,
-          allStocks.isEmpty
-              ? const Expanded(
-                  child: Center(child: CircularProgressIndicator()),
-                )
-              : _stockListView
+          Expanded(
+            child: allStocks.isEmpty
+                ? const Center(child: CircularProgressIndicator())
+                : _stockListView,
+          )
         ],
       ),
     );
   }
 
   Widget get _stockListView {
-    return Expanded(
-      child: ListView(
-        scrollDirection: Axis.vertical,
-        children: [
-          if (allStocks.isNotEmpty)
-            for (var stock in allStocks)
-              StockMarketField(
-                companyTitle: stock.symbol,
-                buyPrice: stock.buyPrice,
-                sellPrice: stock.sellPrice,
-              )
-          else
-            _setInfoWidget
-        ],
-      ),
+    return ListView(
+      scrollDirection: Axis.vertical,
+      children: [
+        if (allStocks.isNotEmpty)
+          for (var stock in allStocks)
+            StockMarketField(
+              companyTitle: stock.symbol,
+              buyPrice: stock.buyPrice,
+              sellPrice: stock.sellPrice,
+            )
+        else
+          _setInfoWidget
+      ],
     );
   }
 
