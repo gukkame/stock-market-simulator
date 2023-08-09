@@ -16,7 +16,7 @@ class ProviderManager extends ChangeNotifier {
   }
 
   Future<void> initStocks(BuildContext context) {
-    return Provider.of<StockProvider>(context).init();
+    return Provider.of<StockProvider>(context, listen: false).init();
   }
 
   List<MarketStock> getStocks(BuildContext context) {

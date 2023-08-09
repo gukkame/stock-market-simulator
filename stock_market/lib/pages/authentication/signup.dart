@@ -239,6 +239,7 @@ class _AddNoteState extends State<SignUp> {
   void _saveUser() {
     debugPrint("User registered successfully! redirecting...");
     ProviderManager().setUser(context, widget.user);
+    ProviderManager().initStocks(context);
     navigate(context, "/stock");
   }
 
@@ -255,7 +256,7 @@ class _AddNoteState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return RoundScaffold(
-      title: "Kaquiz",
+      title: "Stock Market",
       rounding: widget.borderRadius,
       child: Padding(
         padding: const EdgeInsets.all(20.0),

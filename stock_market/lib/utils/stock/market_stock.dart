@@ -8,8 +8,8 @@ class MarketStock {
 
   String get symbol => _data.symbol;
   int get date => _data.time;
-  double get buyPrice => _data.price;
-  double get sellPrice => _data.price * 0.99;
+  double get buyPrice => (_data.price * 100).round() / 100;
+  double get sellPrice => ((_data.price *0.99) * 100).round() / 100;
 
   double get volume => _data.volume;
   String get image => _profile.logo;

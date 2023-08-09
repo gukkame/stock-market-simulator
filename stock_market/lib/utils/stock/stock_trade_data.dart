@@ -11,9 +11,10 @@ class StockTradeData {
     this.volume = 0,
   });
 
-  void setInitJson(Map<String, dynamic> json) {
+  StockTradeData setInitJson(Map<String, dynamic> json) {
     price = double.parse("${json['c']}");
     time = json['t'];
+    return this;
   }
 
   void updateFromJson(Map<String, dynamic> json) {

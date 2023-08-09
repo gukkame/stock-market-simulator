@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_market/screens/stock_list.dart';
 
 import '../components/bottom_nav_bar.dart';
+import '../screens/stock_list.dart';
 
 class StockListPage extends StatefulWidget {
   const StockListPage({super.key});

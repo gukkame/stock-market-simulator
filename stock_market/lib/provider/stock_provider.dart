@@ -35,58 +35,25 @@ class StockProvider with ChangeNotifier {
   ];
   late IOWebSocketChannel channel;
   Map<String, MarketStock> stocks = {};
-  bool _isRateLimited = false;
 
   Future<void> init() async {
-    debugPrint("INIT STOCKS");
+    if (stocks.isNotEmpty) return;
+
     // Create the WebSocket channel
     const String wsLink = '$wsUrl?token=$apiToken';
     try {
       channel = IOWebSocketChannel.connect(wsLink);
     } catch (e) {
-      await Future.delayed(const Duration(seconds: 1));
-      channel = IOWebSocketChannel.connect(wsLink);
+      throw Exception(e);
     }
 
-    // Create the SymbolWebsocket object and
-    // subscribe to the symbols
-    stocks.clear();
+    // Create the SymbolWebsocket object and subscribe to the symbols
     for (var symbol in symbols) {
-      // Getting the profile
-      SymbolProfile profile = SymbolProfile();
-      // var profileLink =
-      //     "$baseUrl/stock/profile2?symbol=$symbol&token=$apiToken";
-      // var resp = await http.get(Uri.parse(profileLink));
-      // if (resp.statusCode == 200) {
-      //   profile = SymbolProfile.fromJson(json.decode(resp.body));
-      //   debugPrint(profile.toString());
-      // } else {
-      //   debugPrint("$resp");
-      //   throw Exception(
-      //       "couldn't get the profile for $symbol: ${resp.statusCode}");
-      // }
-      // await Future.delayed(const Duration(seconds: 1));
-
-      // Creating StockTradeData
-      var stock = StockTradeData(symbol: symbol);
-      // var stockLink = "$baseUrl/quote?symbol=$symbol&token=$apiToken";
-      // var stockResp = await http.get(Uri.parse(stockLink));
-      // if (stockResp.statusCode == 200) {
-      //   stock.setInitJson(json.decode(stockResp.body));
-      //   debugPrint(stock.toString());
-      // } else {
-      //   debugPrint("$stockResp");
-      //   throw Exception(
-      //       "couldn't get the stock for $symbol: ${stockResp.statusCode}");
-      // }
-      // await Future.delayed(const Duration(seconds: 1));
-
-
-      // Adding symbol to websocket
-      channel.sink.add('{"type":"subscribe","symbol":"$symbol"}');
-
-      // Creating market stock
+      SymbolProfile profile = await _getSymbolProfile(symbol);
+      StockTradeData stock = await _getStockTradeData(symbol);
       stocks[symbol] = MarketStock(data: stock, profile: profile);
+
+      channel.sink.add('{"type":"subscribe","symbol":"$symbol"}');
     }
 
     // Handle received messages
@@ -99,7 +66,6 @@ class StockProvider with ChangeNotifier {
                 "Given json data has a bad symbol: $stock ${!stock.containsKey("s")} ${stock["s"] is! String}");
           }
           stocks[stock["s"]]?.updateFromJson(stock);
-          stocks[stock["s"]]?.printStock();
         }
         notifyListeners();
       }
@@ -108,25 +74,57 @@ class StockProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void _handleRateLimit() {
-    const String wsLink = '$wsUrl?token=$apiToken';
-    _isRateLimited = true;
+  Future<SymbolProfile> _getSymbolProfile(String symbol,
+      [int fallback = 0]) async {
+    var profileLink = "$baseUrl/stock/profile2?symbol=$symbol&token=$apiToken";
+    var resp = await http.get(Uri.parse(profileLink));
 
-    // Pause the WebSocket subscription temporarily
+    switch (resp.statusCode) {
+      case 200:
+        return SymbolProfile.fromJson(json.decode(resp.body));
+
+      case 429:
+        await Future.delayed(const Duration(seconds: 1));
+        fallback++;
+        if (fallback < 10) {
+          return _getSymbolProfile(symbol, fallback);
+        } else {
+          throw Exception("Symbol data timedOut: ${resp.toString()}");
+        }
+
+      default:
+        throw Exception("Profile Error: $symbol: ${resp.statusCode}");
+    }
+  }
+
+  Future<StockTradeData> _getStockTradeData(String symbol,
+      [int fallback = 0]) async {
+    var stock = StockTradeData(symbol: symbol);
+    var stockLink = "$baseUrl/quote?symbol=$symbol&token=$apiToken";
+    var resp = await http.get(Uri.parse(stockLink));
+
+    switch (resp.statusCode) {
+      case 200:
+        stock.setInitJson(json.decode(resp.body));
+        return stock;
+
+      case 429:
+        await Future.delayed(const Duration(seconds: 1));
+        fallback++;
+        if (fallback < 10) {
+          return _getStockTradeData(symbol, fallback);
+        } else {
+          throw Exception("Symbol data timed out: ${resp.toString()}");
+        }
+
+      default:
+        throw Exception("Symbol data error: $symbol: ${resp.toString()}");
+    }
+  }
+
+  void clear() {
+    stocks.clear();
     channel.sink.close();
-
-    // Wait for a while (e.g., 1 minute) before resuming the subscription
-    Future.delayed(const Duration(minutes: 1), () {
-      _isRateLimited = false;
-
-      // Reopen the WebSocket subscription
-      channel = IOWebSocketChannel.connect(wsLink);
-      for (var symbol in symbols) {
-        // ...
-        channel.sink.add('{"type":"subscribe","symbol":"$symbol"}');
-        // ...
-      }
-    });
   }
 
   @override
