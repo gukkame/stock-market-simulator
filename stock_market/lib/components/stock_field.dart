@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../utils/colors.dart';
+import '../utils/navigation.dart';
 import 'container.dart';
 
 class StockField extends StatefulWidget {
@@ -100,14 +101,13 @@ class _StockFieldState extends State<StockField> {
     );
   }
 
-   void onTap(int option) {
+  void onTap(int option) {
     if (option == 0) {
       debugPrint("Buy");
-      // navigate(context, "/buy");
+      navigate(context, "/trade", args: {"arg": "buy"});
     } else {
       debugPrint("Sell");
-      // navigate(context, "/sell");
+      navigate(context, "/trade", args: {"arg": "sell"});
     }
   }
-
 }
