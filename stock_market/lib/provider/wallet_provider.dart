@@ -33,7 +33,7 @@ class WalletProvider extends ChangeNotifier {
     var data = await StockApi().getWalletData(user);
     _total = double.parse("${data['total']}");
     _holding = List<UserStock>.from(
-        data['holdings'].map((stockData) => UserStock.from(stockData)));
+        data['holding'].map((stockData) => UserStock.from(stockData)));
     _hasInit = true;
     notifyListeners();
   }

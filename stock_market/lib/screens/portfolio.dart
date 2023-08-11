@@ -23,8 +23,14 @@ class _PortfolioState extends State<Portfolio> {
   @override
   void initState() {
     user = ProviderManager().getUser(context);
-    wallet = ProviderManager().getWallet(context);
+
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    wallet = ProviderManager().getWallet(context);
+    super.didChangeDependencies();
   }
 
   @override
@@ -57,7 +63,6 @@ class _PortfolioState extends State<Portfolio> {
             children: <Widget>[
               _titleStyle("Assets"),
               _titleStyle("Units"),
-              _titleStyle("Avg. Open \$"),
               _titleStyle("Value \$"),
             ]),
       ),

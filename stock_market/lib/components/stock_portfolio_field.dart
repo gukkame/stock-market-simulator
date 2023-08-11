@@ -39,7 +39,6 @@ class _StockFieldState extends State<StockPortfolioField> {
                   children: [
                     _textStyle(widget.companyTitle, 18),
                     _textStyle(widget.amount.toString(), 16),
-                    _textStyle(widget.amount.toString(), 16),
                     _textStyle(widget.sellPrice.toString(), 16),
                   ],
                 )),
@@ -73,5 +72,4 @@ class _StockFieldState extends State<StockPortfolioField> {
     debugPrint(widget.companyTitle);
     //  navigate(context, "/portfolio-stock");
   }
-
 }
