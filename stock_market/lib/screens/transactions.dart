@@ -1,9 +1,6 @@
-import 'dart:ffi';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:stock_market/utils/colors.dart';
-import 'package:stock_market/utils/navigation.dart';
 
 import '../components/container.dart';
 import '../components/stock_info_field.dart';
@@ -83,7 +80,7 @@ class _TransactionsState extends State<Transactions> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
             alignment: Alignment.center,
             child: Container(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               height: 140,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -180,7 +177,7 @@ class _TransactionsState extends State<Transactions> {
           _createIncrementDicrementButton(Icons.remove, dicrement),
           Text(
             _currentCount.toString(),
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.white, fontWeight: FontWeight.w300, fontSize: 20),
           ),
           _createIncrementDicrementButton(Icons.add, increment),
@@ -192,15 +189,15 @@ class _TransactionsState extends State<Transactions> {
   Widget _createIncrementDicrementButton(IconData icon, Function onPressed) {
     return RawMaterialButton(
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      constraints: BoxConstraints(minWidth: 42.0, minHeight: 42.0),
+      constraints: const BoxConstraints(minWidth: 42.0, minHeight: 42.0),
       onPressed: () => onPressed(),
       elevation: 2.0,
+      shape: const CircleBorder(),
       child: Icon(
         icon,
         color: Colors.white,
         size: 18.0,
       ),
-      shape: CircleBorder(),
     );
   }
 }
