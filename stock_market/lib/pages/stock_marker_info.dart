@@ -13,10 +13,14 @@ class StockInfoPage extends StatefulWidget {
 class _StockInfoPageState extends State<StockInfoPage> {
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: primeColorTrans,
-      appBar: AppBar(title: const Text("Stock Info"),backgroundColor: secondaryColor.withOpacity(0.2),shadowColor: Colors.transparent,),
-      body:const StockInfo(),
+      appBar: AppBar(
+        title: const Text("Stock Info"),
+        backgroundColor: secondaryColor.withOpacity(0.2),
+        shadowColor: Colors.transparent,
+      ),
+      body: const StockInfo(),
     );
   }
 }
