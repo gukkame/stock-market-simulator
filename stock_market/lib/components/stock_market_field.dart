@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../utils/colors.dart';
 import 'container.dart';
 
-class StockField extends StatefulWidget {
-  StockField(
+class StockMarketField extends StatefulWidget {
+  StockMarketField(
       {super.key,
       required this.companyTitle,
       required this.sellPrice,
@@ -13,14 +13,14 @@ class StockField extends StatefulWidget {
   double sellPrice;
   double buyPrice;
   @override
-  State<StockField> createState() => _StockFieldState();
+  State<StockMarketField> createState() => _StockFieldState();
 }
 
 //On StockList page and porfolio page
 //On Porfolio, I have company price, units bought, value
 //on StockList I have company, Buy, Sell buttons, on top of them are price at sell, at buy
 
-class _StockFieldState extends State<StockField> {
+class _StockFieldState extends State<StockMarketField> {
   @override
   Widget build(BuildContext context) {
     return Column(
