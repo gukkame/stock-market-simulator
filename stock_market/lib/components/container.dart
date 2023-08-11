@@ -4,6 +4,7 @@ import '../utils/colors.dart';
 class RoundedGradientContainer extends StatelessWidget {
   final Widget? _child;
   final LinearGradient _gradient;
+  final Color _backgroundColor;
   final double _borderSize;
   final double _outerBorderRadius;
   final double _innerBorderRadius;
@@ -14,12 +15,14 @@ class RoundedGradientContainer extends StatelessWidget {
       double outerBorderRadius = 6.0 + 3,
       double innerBorderRadius = 6.0,
       LinearGradient? gradient,
+      Color? backgroundColor,
       Widget? child})
       : _child = child,
         _borderSize = borderSize,
         _outerBorderRadius = outerBorderRadius,
         _innerBorderRadius = innerBorderRadius,
-        _gradient = gradient ?? primeGradient;
+        _gradient = gradient ?? primeGradient,
+        _backgroundColor = backgroundColor ?? Colors.white;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,7 @@ class RoundedGradientContainer extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius:
                     BorderRadius.all(Radius.circular(_innerBorderRadius)),
-                color: Colors.white),
+                color: _backgroundColor),
             child: _child),
       ),
     );

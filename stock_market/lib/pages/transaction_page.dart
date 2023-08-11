@@ -17,36 +17,26 @@ class _TransactionPageState extends State<TransactionPage> {
 
   @override
   void didChangeDependencies() {
-       page = Arguments.from(context).arg![0];
-       companyTitle = Arguments.from(context).arg![1];
+    page = Arguments.from(context).arg![0];
+    companyTitle = Arguments.from(context).arg![1];
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: primeColorTrans,
       appBar: AppBar(
         title: const Text("Trade"),
         actions: <Widget>[_transactionBtn],
+        backgroundColor: secondaryColor.withOpacity(0.2),
+        shadowColor: Colors.transparent,
       ),
-      body: Transactions(page: page, companyTitle: companyTitle,),
+      body: Transactions(
+        page: page,
+        companyTitle: companyTitle,
+      ),
     );
-  }
-
-  void onTap(int option) {
-    if (option == 0) {
-      debugPrint("Buy");
-      setState(() {
-        page = "buy";
-      });
-      // navigate(context, "/buy");
-    } else {
-      debugPrint("Sell");
-      setState(() {
-        page = "sell";
-      });
-      // navigate(context, "/sell");
-    }
   }
 
   Widget get _transactionBtn {
@@ -60,9 +50,11 @@ class _TransactionPageState extends State<TransactionPage> {
               fit: BoxFit.fill,
               child: TextButton(
                 style: TextButton.styleFrom(
-                    padding: const EdgeInsets.fromLTRB(0, 4, 10, 4),
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    alignment: Alignment.centerRight),
+                  padding: const EdgeInsets.fromLTRB(0, 4, 10, 4),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  alignment: Alignment.centerRight,
+                  splashFactory: NoSplash.splashFactory,
+                ),
                 onPressed: () => onTap(i),
                 child: Container(
                   decoration: BoxDecoration(
@@ -87,5 +79,17 @@ class _TransactionPageState extends State<TransactionPage> {
           ),
       ],
     );
+  }
+
+  void onTap(int option) {
+    if (option == 0) {
+      setState(() {
+        page = "buy";
+      });
+    } else {
+      setState(() {
+        page = "sell";
+      });
+    }
   }
 }
