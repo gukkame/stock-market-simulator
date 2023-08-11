@@ -15,9 +15,9 @@ class _TransactionPageState extends State<TransactionPage> {
   late String page;
 
   @override
-  void initState() {
-    page = Arguments.from(context).arg!;
-    super.initState();
+  void didChangeDependencies() {
+       page = Arguments.from(context).arg!;
+    super.didChangeDependencies();
   }
 
   @override
