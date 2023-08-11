@@ -104,10 +104,14 @@ class _StockFieldState extends State<StockField> {
   void onTap(int option) {
     if (option == 0) {
       debugPrint("Buy");
-      navigate(context, "/trade", args: {"arg": "buy"});
+      navigate(context, "/trade", args: {
+        "arg": ["buy", widget.companyTitle]
+      });
     } else {
       debugPrint("Sell");
-      navigate(context, "/trade", args: {"arg": "sell"});
+      navigate(context, "/trade", args: {
+        "arg": ["sell", widget.companyTitle]
+      });
     }
   }
 }

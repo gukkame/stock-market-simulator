@@ -13,10 +13,12 @@ class TransactionPage extends StatefulWidget {
 
 class _TransactionPageState extends State<TransactionPage> {
   late String page;
+  late String companyTitle;
 
   @override
   void didChangeDependencies() {
-       page = Arguments.from(context).arg!;
+       page = Arguments.from(context).arg![0];
+       companyTitle = Arguments.from(context).arg![1];
     super.didChangeDependencies();
   }
 
@@ -27,7 +29,7 @@ class _TransactionPageState extends State<TransactionPage> {
         title: const Text("Trade"),
         actions: <Widget>[_transactionBtn],
       ),
-      body: Transactions(page: page),
+      body: Transactions(page: page, companyTitle: companyTitle,),
     );
   }
 
