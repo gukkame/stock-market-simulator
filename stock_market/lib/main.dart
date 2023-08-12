@@ -43,6 +43,7 @@ class MainApp extends StatelessWidget {
           '/login': (context) => LogIn(),
           '/signup': (context) => SignUp(),
           '/stocks': (context) => const StockListPage(),
+          '/stock-info': (context) => const StockInfoPage(),
           '/portfolio': (context) => const PortfolioPage(),
         },
       ),

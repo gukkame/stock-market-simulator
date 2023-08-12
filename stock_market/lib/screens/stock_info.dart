@@ -34,11 +34,11 @@ class _StockInfoState extends State<StockInfo> {
               stockPrice: stockPrice,
               persentChange: persentChange,
               logo: logo),
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
-          StockLineChart(),
-          SizedBox(
+          const StockLineChart(),
+          const SizedBox(
             height: 35,
           ),
           _transactionBtn,

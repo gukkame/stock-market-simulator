@@ -122,7 +122,7 @@ class _StockLineChartState extends State<StockLineChart> {
           color: Colors.white,
           barWidth: 2,
           isStrokeCapRound: true,
-          dotData: FlDotData(
+          dotData: const FlDotData(
             show: false,
           ),
           belowBarData: BarAreaData(
