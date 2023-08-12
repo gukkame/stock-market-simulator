@@ -16,18 +16,55 @@ class _StockLineChartState extends State<StockLineChart> {
     primeColorTrans.withOpacity(0.0),
   ];
 
+  String showData = "Day";
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SizedBox(
-        width: 2000,
-        height: 400,
-        child: Padding(
-          padding: const EdgeInsets.only(
-              right: 18.0, left: 12.0, top: 24, bottom: 12),
-          child: LineChart(
-            mainData(),
+    return Column(children: [
+      Row(
+        children: [
+          _changePeriodBtn("Day"),
+          _changePeriodBtn("Week"),
+          _changePeriodBtn("Month")
+        ],
+      ),
+      SizedBox(
+        height: 10,
+      ),
+      SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: SizedBox(
+          width: 2000,
+          height: 400,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                right: 18.0, left: 12.0, top: 24, bottom: 12),
+            child: LineChart(
+              mainData(),
+            ),
+          ),
+        ),
+      ),
+    ]);
+  }
+
+  Widget _changePeriodBtn(String period) {
+    return SizedBox(
+      width: 60,
+      height: 34,
+      child: TextButton(
+        onPressed: () {
+          setState(() {
+            showData = period;
+          });
+        },
+        child: Text(
+          period,
+          style: TextStyle(
+            fontSize: 12,
+            color: showData == period
+                ? Colors.white.withOpacity(0.5)
+                : Colors.white,
           ),
         ),
       ),
@@ -115,7 +152,6 @@ class _StockLineChartState extends State<StockLineChart> {
         LineChartBarData(
           spots: [
             for (final entry in data.entries) ...[
-           
               FlSpot(entry.key.toDouble(), entry.value.toDouble()),
             ]
           ],
