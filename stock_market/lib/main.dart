@@ -8,6 +8,7 @@ import 'package:stock_market/provider/wallet_provider.dart';
 
 import 'pages/authentication/login.dart';
 import 'pages/authentication/signup.dart';
+import 'pages/stock_marker_info.dart';
 import 'pages/view_stocks.dart';
 import 'provider/user_provider.dart';
 import 'firebase_options.dart';

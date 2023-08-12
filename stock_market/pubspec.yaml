@@ -17,6 +17,7 @@ dependencies:
   http: ^1.1.0
   flutter:
     sdk: flutter
+  fl_chart: ^0.63.0
 
 dev_dependencies:
   flutter_test:

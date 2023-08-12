@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../utils/colors.dart';
+import '../utils/navigation.dart';
 import 'container.dart';
 
 class StockMarketField extends StatefulWidget {
@@ -58,7 +59,7 @@ class _StockFieldState extends State<StockMarketField> {
   void _onTitleTap() {
     debugPrint("Company tapped");
     debugPrint(widget.companyTitle);
-    //  navigate(context, "/stock-info");
+    navigate(context, "/stock-info", args: {"symbol": widget.companyTitle});
   }
 
   Widget get _transactionBtn {
@@ -100,7 +101,7 @@ class _StockFieldState extends State<StockMarketField> {
     );
   }
 
-   void onTap(int option) {
+  void onTap(int option) {
     if (option == 0) {
       debugPrint("Buy");
       // navigate(context, "/buy");
@@ -109,5 +110,4 @@ class _StockFieldState extends State<StockMarketField> {
       // navigate(context, "/sell");
     }
   }
-
 }
