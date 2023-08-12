@@ -49,4 +49,11 @@ class ProviderManager extends ChangeNotifier {
   WalletProvider getWallet(BuildContext context) {
     return Provider.of<WalletProvider>(context);
   }
+
+  /* Functionality */
+
+  Future<void> logOut(BuildContext context) async {
+    Provider.of<StockProvider>(context, listen: false).dispose();
+    await getUser(context).logOut();
+  }
 }

@@ -10,7 +10,7 @@ import 'pages/authentication/login.dart';
 import 'pages/authentication/signup.dart';
 import 'pages/stock_marker_info.dart';
 import 'pages/transaction_page.dart';
-import 'pages/view_stocks.dart';
+import 'pages/stock_list_page.dart';
 import 'provider/user_provider.dart';
 import 'firebase_options.dart';
 

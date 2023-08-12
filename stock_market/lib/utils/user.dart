@@ -52,5 +52,9 @@ class User {
     return null;
   }
 
+  Future<void> logOut() async {
+    FirebaseAuth.instance.signOut();
+  }
+
   User();
 }

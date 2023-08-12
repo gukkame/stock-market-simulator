@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:stock_market/provider/provider_manager.dart';
+import 'package:stock_market/utils/navigation.dart';
 
 import '../components/bottom_nav_bar.dart';
 import '../screens/stock_list.dart';
@@ -34,7 +36,12 @@ class StockListPageState extends State<StockListPage> {
     );
   }
 
-  void logOut() {
-    debugPrint("logOut");
+  void logOut() async {
+    await ProviderManager().logOut(context);
+    redirect();
+  }
+
+  void redirect() {
+    navigate(context, "/login");
   }
 }
