@@ -42,15 +42,15 @@ class _TransactionPageState extends State<TransactionPage> {
   Widget get _transactionBtn {
     return Row(
       children: [
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++) ...[
           SizedBox(
-            width: 100,
+            width: 80,
             height: 40,
             child: FittedBox(
               fit: BoxFit.fill,
               child: TextButton(
                 style: TextButton.styleFrom(
-                  padding: const EdgeInsets.fromLTRB(0, 4, 10, 4),
+                  padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   alignment: Alignment.centerRight,
                   splashFactory: NoSplash.splashFactory,
@@ -58,8 +58,8 @@ class _TransactionPageState extends State<TransactionPage> {
                 onPressed: () => onTap(i),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: ((page == "buy" && i == 0) ||
-                              (page == "sell" && i == 1))
+                      color: ((page == "buy" && i == 1) ||
+                              (page == "sell" && i == 0))
                           ? primeColor
                           : primeColorTrans,
                       borderRadius: BorderRadius.circular(6.0)),
@@ -67,7 +67,7 @@ class _TransactionPageState extends State<TransactionPage> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 23.0, vertical: 6.0),
                     child: Text(
-                      i == 0 ? "Buy" : "Sell",
+                      i == 1 ? "Buy" : "Sell",
                       style: const TextStyle(
                         color: Colors.black,
                       ),
@@ -77,12 +77,13 @@ class _TransactionPageState extends State<TransactionPage> {
               ),
             ),
           ),
+          const SizedBox(width: 15,)]
       ],
     );
   }
 
   void onTap(int option) {
-    if (option == 0) {
+    if (option == 1) {
       setState(() {
         page = "buy";
       });

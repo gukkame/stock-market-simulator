@@ -11,18 +11,27 @@ class UserApi extends GeneralApi {
       await write(
         collection: "users",
         path: email,
-        data: {"email": Convert.encode(email), "name": name},
+        data: {"email": email, "name": name},
       );
       await write(
         collection: "wallet",
         path: Convert.encode(email),
-        data: {"total": 1000000, "holding": [], "history": []},
+        data: {"total": 1000000, "holding": []},
       );
 
       return true;
     } catch (e) {
       debugPrint(e.toString());
       return false;
+    }
+  }
+
+  Future<String?> getUsername({required String email}) async {
+    try {
+      var resp = await readPath(collection: "users", path: email);
+      return (resp.data() as Map<String, dynamic>)["name"] as String;
+    } catch (e) {
+      return null;
     }
   }
 }
