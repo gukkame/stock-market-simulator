@@ -28,13 +28,15 @@ class _LogInState extends State<LogIn> {
   void initState() {
     widget.user
         .signInUser(
-      email: "gukka@gmail.com",
+      email: "laura@gmail.com",
       password: "pass123",
     )
-        .then((value) {
-      _setUser();
-      _redirect();
-    },);
+        .then(
+      (value) {
+        _setUser();
+        _redirect();
+      },
+    );
     super.initState();
   }
 
@@ -217,6 +219,8 @@ class _LogInState extends State<LogIn> {
 
   void _setUser() {
     ProviderManager().setUser(context, widget.user);
+    ProviderManager().initStocks(context);
+    ProviderManager().initWallet(context);
   }
 
   void _redirect() {
@@ -227,7 +231,7 @@ class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
     return RoundScaffold(
-      title: "Kaquiz",
+      title: "Stock Market",
       rounding: 20,
       child: Padding(
         padding: const EdgeInsets.all(20.0),

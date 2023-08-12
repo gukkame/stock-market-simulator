@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:stock_market/components/stock_field.dart';
-import 'package:stock_market/utils/stock.dart';
+import 'package:stock_market/components/stock_market_field.dart';
 
 import '../provider/provider_manager.dart';
+import '../utils/stock/market_stock.dart';
 import '../utils/colors.dart';
 import '../utils/user.dart';
 
@@ -17,175 +16,47 @@ class StockList extends StatefulWidget {
 class _StockListState extends State<StockList> {
   late User user;
   String errorMSg = "Stocks not found!";
-  List<Stock> allStocks = [];
+  List<MarketStock> allStocks = [];
 
   @override
   void initState() {
     user = ProviderManager().getUser(context);
-    getStockList();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    allStocks = ProviderManager().getStocks(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(30, 20, 30, 20),
       child: Column(
         children: [
           _title,
           Expanded(
-            child: ListView(
-              scrollDirection: Axis.vertical,
-              children: [
-                if (allStocks.isNotEmpty)
-                  for (var stock in allStocks)
-                    StockField(
-                      companyTitle: stock.symbol,
-                      buyPrice: stock.price[0],
-                      sellPrice: stock.price[1],
-                    )
-                else
-                  _setInfoWidget
-              ],
-            ),
+            child: allStocks.isEmpty
+                ? const Center(child: CircularProgressIndicator())
+                : _stockListView,
           )
         ],
       ),
     );
   }
 
-  void getStockList() {
-    //!Fetch data from database|| CompanyName, Buy price, Sell price
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
-    allStocks.add(Stock(
-      symbol: "TSLA",
-      date: Timestamp(43, 32),
-      buyPrice: 4478.03,
-      sellPrice: 4478.03,
-    ));
-    allStocks.add(Stock(
-      symbol:"NVDA",
-      date:Timestamp(43, 32),
-      buyPrice:234.3,
-      sellPrice:221.3,
-    ));
-   
+  Widget get _stockListView {
+    return ListView(
+      scrollDirection: Axis.vertical,
+      children: [
+        if (allStocks.isNotEmpty)
+          for (var stock in allStocks)
+            StockMarketField(
+              companyTitle: stock.symbol,
+              buyPrice: stock.buyPrice,
+              sellPrice: stock.sellPrice,
+            )
+        else
+          _setInfoWidget
+      ],
+    );
   }
 
   Widget get _title {
@@ -233,7 +104,7 @@ class _StockListState extends State<StockList> {
     ));
   }
 
-  void _setErrorState(String msg) {
-    errorMSg = msg;
-  }
+  // void _setErrorState(String msg) {
+  //   errorMSg = msg;
+  // }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:stock_market/screens/stock_list.dart';
 
 import '../components/bottom_nav_bar.dart';
+import '../screens/stock_list.dart';
 
 class StockListPage extends StatefulWidget {
   const StockListPage({super.key});
@@ -19,7 +19,7 @@ class StockListPageState extends State<StockListPage> {
         automaticallyImplyLeading: false,
       ),
       body: const StockList(),
-      bottomNavigationBar: const BottomNavBar(index: 0),
+      bottomNavigationBar: const BottomNavBar(index: 1),
     );
   }
 }
