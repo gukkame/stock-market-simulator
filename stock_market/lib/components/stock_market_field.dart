@@ -59,21 +59,23 @@ class _StockFieldState extends State<StockMarketField> {
   void _onTitleTap() {
     debugPrint("Company tapped");
     debugPrint(widget.companyTitle);
-    navigate(context, "/stock-info", args: {"symbol": widget.companyTitle});
+    navigate(context, "/stock-info", args: {
+      "arg": [widget.companyTitle]
+    });
   }
 
   Widget get _transactionBtn {
     return Row(
       children: [
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++) ...[
           SizedBox(
-            width: 100,
+            width: 85,
             height: 40,
             child: FittedBox(
               fit: BoxFit.fill,
               child: TextButton(
                 style: TextButton.styleFrom(
-                    padding: const EdgeInsets.fromLTRB(0, 4, 10, 4),
+                    padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     alignment: Alignment.centerRight),
                 onPressed: () => onTap(i),
@@ -97,17 +99,25 @@ class _StockFieldState extends State<StockMarketField> {
               ),
             ),
           ),
+          const SizedBox(
+            width: 12,
+          )
+        ]
       ],
     );
   }
 
   void onTap(int option) {
-    if (option == 0) {
+    if (option == 1) {
       debugPrint("Buy");
-      // navigate(context, "/buy");
+      navigate(context, "/trade", args: {
+        "arg": ["buy", widget.companyTitle]
+      });
     } else {
       debugPrint("Sell");
-      // navigate(context, "/sell");
+      navigate(context, "/trade", args: {
+        "arg": ["sell", widget.companyTitle]
+      });
     }
   }
 }

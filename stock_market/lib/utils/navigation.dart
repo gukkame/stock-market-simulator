@@ -7,16 +7,16 @@ void navigate(BuildContext context, String routeName, {Object? args}) {
 
 // Extract arguments when navigating
 class Arguments {
-  late String? symbol;
+  late List? arg;
 
   factory Arguments.from(BuildContext context) {
     var data = (ModalRoute.of(context)!.settings.arguments ??
-        <String, dynamic>{}) as Map<String, dynamic>;
+        <String, List>{}) as Map<String, List>;
 
-    return Arguments(data.containsKey("symbol") ? data["symbol"] : null);
+    return Arguments(data.containsKey("arg") ? data["arg"] : null);
   }
 
-  Arguments(this.symbol);
+  Arguments(this.arg);
 }
 
 

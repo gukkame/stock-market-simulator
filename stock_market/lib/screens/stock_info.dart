@@ -15,7 +15,7 @@ class StockInfo extends StatefulWidget {
 class _StockInfoState extends State<StockInfo> {
   @override
   Widget build(BuildContext context) {
-    String? title = Arguments.from(context).symbol;
+    String? title = Arguments.from(context).arg?[0];
 
     title ??= "error finding company";
 
@@ -24,25 +24,25 @@ class _StockInfoState extends State<StockInfo> {
     var persentChange = -2.22;
     var logo = "";
 
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          StockInfoField(
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(30, 40, 30, 0),
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            StockInfoField(
               title: title,
-              fullCompanyName: fullCompanyName,
-              stockPrice: stockPrice,
-              persentChange: persentChange,
-              logo: logo),
-          const SizedBox(
-            height: 50,
-          ),
-          const StockLineChart(),
-          const SizedBox(
-            height: 35,
-          ),
-          _transactionBtn,
-        ]);
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            const StockLineChart(),
+            const SizedBox(
+              height: 35,
+            ),
+            _transactionBtn,
+          ]),
+    );
   }
 
   void _getStockInfo() {
@@ -54,17 +54,19 @@ class _StockInfoState extends State<StockInfo> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++) ...[
           SizedBox(
-            width: 120,
-            height: 50,
+            width: 100,
+         
             child: FittedBox(
               fit: BoxFit.fill,
               child: TextButton(
                 style: TextButton.styleFrom(
-                    padding: const EdgeInsets.fromLTRB(0, 4, 10, 4),
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    alignment: Alignment.centerRight),
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  alignment: Alignment.centerRight,
+                  splashFactory: NoSplash.splashFactory,
+                ),
                 onPressed: () => onTap(i),
                 child: Container(
                   decoration: BoxDecoration(
@@ -72,7 +74,7 @@ class _StockInfoState extends State<StockInfo> {
                       borderRadius: BorderRadius.circular(6.0)),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 23.0, vertical: 6.0),
+                        horizontal: 23.0, vertical: 8.0),
                     child: Text(
                       i == 0 ? "Buy" : "Sell",
                       style: const TextStyle(
@@ -84,6 +86,8 @@ class _StockInfoState extends State<StockInfo> {
               ),
             ),
           ),
+          const SizedBox(width: 20,)
+        ]
       ],
     );
   }

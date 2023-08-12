@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 const Color primeColor = Color.fromRGBO(0, 119, 255, 1);
+const Color primeColorDark =  Color.fromRGBO(3, 23, 57, 1);
+// const Color primeColorDark =  Color.fromRGBO(3, 28, 58, 1);
 const Color primeColorTrans = Color.fromRGBO(0, 119, 255, 0.212);
 const Color secondaryColor = Color.fromRGBO(255, 0, 212, 1);
 const Color focusColor = Color.fromRGBO(255, 189, 0, 1);

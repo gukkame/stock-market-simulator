@@ -73,11 +73,11 @@ class _StockListState extends State<StockList> {
               const SizedBox(
                 width: 65,
               ),
-              _titleStyle("Buy"),
+              _titleStyle("Sell"),
               const SizedBox(
                 width: 70,
               ),
-              _titleStyle("Sell"),
+              _titleStyle("Buy"),
             ]),
       ),
     );
