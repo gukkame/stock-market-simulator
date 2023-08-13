@@ -33,6 +33,7 @@ class _LogInState extends State<LogIn> {
     )
         .then(
       (value) {
+        debugPrint("resp: $value");
         _setUser();
         _redirect();
       },
@@ -220,7 +221,7 @@ class _LogInState extends State<LogIn> {
   void _setUser() {
     ProviderManager().setUser(context, widget.user);
     ProviderManager().initStocks(context);
-    ProviderManager().initWallet(context);
+    ProviderManager().initWallet(context, widget.user);
   }
 
   void _redirect() {

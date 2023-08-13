@@ -30,6 +30,8 @@ class _AddNoteState extends State<SignUp> {
   BorderColor passCheck = BorderColor.neutral;
   BorderColor pass2Check = BorderColor.neutral;
   bool _submitLock = false;
+
+  
   Widget _createInputField(
     String hintText,
     BorderColor checker,
@@ -240,7 +242,7 @@ class _AddNoteState extends State<SignUp> {
     debugPrint("User registered successfully! redirecting...");
     ProviderManager().setUser(context, widget.user);
     ProviderManager().initStocks(context);
-    ProviderManager().initWallet(context);
+    ProviderManager().initWallet(context, widget.user);
     navigate(context, "/stock");
   }
 

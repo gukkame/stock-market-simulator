@@ -36,14 +36,13 @@ class ProviderManager extends ChangeNotifier {
   }
 
   void disposeStocks(BuildContext context) {
-    Provider.of<StockProvider>(context).dispose();
+    Provider.of<StockProvider>(context).clear();
   }
 
   /* Wallet */
 
-  Future<void> initWallet(BuildContext context) {
-    return Provider.of<WalletProvider>(context, listen: false)
-        .init(getUser(context));
+  Future<void> initWallet(BuildContext context, User user) {
+    return Provider.of<WalletProvider>(context, listen: false).init(user);
   }
 
   WalletProvider getWallet(BuildContext context) {

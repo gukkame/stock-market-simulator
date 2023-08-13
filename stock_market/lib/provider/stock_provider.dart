@@ -7,6 +7,9 @@ import 'package:http/http.dart' as http;
 import '../utils/stock/symbol_profile.dart';
 import '../utils/stock/stock_trade_data.dart';
 
+var test =
+    "https://finnhub.io/api/v1/quote?symbol=AAPL&token=cj8d6q1r01qlegoku00gcj8d6q1r01qlegoku010";
+
 class StockProvider with ChangeNotifier {
   static const String baseUrl = "https://finnhub.io/api/v1";
   static const String wsUrl = "wss://ws.finnhub.io";
@@ -56,7 +59,6 @@ class StockProvider with ChangeNotifier {
       channel.sink.add('{"type":"subscribe","symbol":"$symbol"}');
     }
 
-    // Handle received messages
     channel.stream.listen((message) {
       Map<String, dynamic> jsonData = jsonDecode(message);
       if (jsonData["data"] != null) {
@@ -70,7 +72,6 @@ class StockProvider with ChangeNotifier {
         notifyListeners();
       }
     });
-
     notifyListeners();
   }
 
@@ -122,6 +123,48 @@ class StockProvider with ChangeNotifier {
     }
   }
 
+  void open() {
+    // Close the existing WebSocket connection if it's open
+    if (channel.closeCode != null) {
+      channel.sink.close();
+    }
+
+    // Re-create the WebSocket channel
+    const String wsLink = '$wsUrl?token=$apiToken';
+    try {
+      channel = IOWebSocketChannel.connect(wsLink);
+    } catch (e) {
+      throw Exception(e);
+    }
+
+    // Re-subscribe to the symbols
+    for (var symbol in symbols) {
+      channel.sink.add('{"type":"subscribe","symbol":"$symbol"}');
+    }
+
+    // Re-register the stream listener
+    channel.stream.listen((message) {
+      Map<String, dynamic> jsonData = jsonDecode(message);
+      if (jsonData["data"] != null) {
+        for (Map<String, dynamic> stock in jsonData["data"]) {
+          if (!stock.containsKey("s") || stock["s"] is! String) {
+            throw Exception(
+                "Given json data has a bad symbol: $stock ${!stock.containsKey("s")} ${stock["s"] is! String}");
+          }
+          stocks[stock["s"]]?.updateFromJson(stock);
+        }
+        notifyListeners();
+      }
+    });
+
+    // Notify listeners that the WebSocket connection has been reopened
+    notifyListeners();
+  }
+
+  void close() {
+    channel.sink.close();
+  }
+
   void clear() {
     stocks.clear();
     channel.sink.close();
@@ -129,7 +172,7 @@ class StockProvider with ChangeNotifier {
 
   @override
   void dispose() {
-    channel.sink.close();
+    clear();
     super.dispose();
   }
 }
