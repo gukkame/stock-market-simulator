@@ -13,11 +13,17 @@ class StockInfo extends StatefulWidget {
 }
 
 class _StockInfoState extends State<StockInfo> {
+  String title = "error finding company";
+
+  @override
+  void didChangeDependencies() {
+    title = Arguments.from(context).arg?[0];
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
-    String? title = Arguments.from(context).arg?[0];
-
-    title ??= "error finding company";
+    // title ??= "error finding company";
 
     var fullCompanyName = "NVIDIA Corporation";
     var stockPrice = 234.23;
@@ -34,7 +40,7 @@ class _StockInfoState extends State<StockInfo> {
               title: title,
             ),
             const SizedBox(
-              height: 50,
+              height: 10,
             ),
             const StockLineChart(),
             const SizedBox(
@@ -57,7 +63,6 @@ class _StockInfoState extends State<StockInfo> {
         for (int i = 0; i < 2; i++) ...[
           SizedBox(
             width: 100,
-         
             child: FittedBox(
               fit: BoxFit.fill,
               child: TextButton(
@@ -86,7 +91,9 @@ class _StockInfoState extends State<StockInfo> {
               ),
             ),
           ),
-          const SizedBox(width: 20,)
+          const SizedBox(
+            width: 20,
+          )
         ]
       ],
     );
@@ -95,10 +102,14 @@ class _StockInfoState extends State<StockInfo> {
   void onTap(int option) {
     if (option == 0) {
       debugPrint("Buy");
-      // navigate(context, "/buy");
+      navigate(context, "/trade", args: {
+        "arg": ["buy", title]
+      });
     } else {
       debugPrint("Sell");
-      // navigate(context, "/sell");
+      navigate(context, "/trade", args: {
+        "arg": ["sell", title]
+      });
     }
   }
 }
