@@ -16,7 +16,7 @@ class _StockLineChartState extends State<StockLineChart> {
     secondaryColor,
     primeColorTrans.withOpacity(0.0),
   ];
-  Map<int, int> data = month;
+  Map<int, double> data = month;
   String showData = "Month";
 
   @override
@@ -64,10 +64,10 @@ class _StockLineChartState extends State<StockLineChart> {
             // data = period.toLowerCase()
             switch (period) {
               case "Day":
-                data = day;
+                // data = day;
                 break;
               case "Week":
-                data = week;
+                // data = week;
                 break;
               default:
                 data = month;
@@ -124,7 +124,7 @@ class _StockLineChartState extends State<StockLineChart> {
     );
     Widget text = const Text('', style: style);
     var h = highestValue();
-    final step = h ~/ 12;
+    final step = h ~/ 4;
 
     if (value.toInt() % step == 0) {
       final index = value.toInt() ~/ step;
@@ -209,8 +209,20 @@ class _StockLineChartState extends State<StockLineChart> {
   }
 }
 
-final month =
-    [225, 220, 218, 249, 287, 306, 300, 235, 208, 222, 224, 243].asMap();
+final month = [
+  22.5,
+  22.0,
+  21.8,
+  24.9,
+  28.7,
+  30.6,
+  30.0,
+  23.5,
+  20.8,
+  22.2,
+  22.4,
+  24.3
+].asMap();
 
 final week = [
   225,
