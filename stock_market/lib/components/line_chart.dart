@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -15,8 +16,8 @@ class _StockLineChartState extends State<StockLineChart> {
     secondaryColor,
     primeColorTrans.withOpacity(0.0),
   ];
-
-  String showData = "Day";
+  Map<int, int> data = month;
+  String showData = "Month";
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +29,17 @@ class _StockLineChartState extends State<StockLineChart> {
           _changePeriodBtn("Month")
         ],
       ),
-      SizedBox(
+      const SizedBox(
         height: 10,
       ),
       SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: SizedBox(
-          width: 2000,
+          width: showData == "Month"
+              ? 500
+              : showData == "Week"
+                  ? 1100
+                  : 1700,
           height: 400,
           child: Padding(
             padding: const EdgeInsets.only(
@@ -56,6 +61,17 @@ class _StockLineChartState extends State<StockLineChart> {
         onPressed: () {
           setState(() {
             showData = period;
+            // data = period.toLowerCase()
+            switch (period) {
+              case "Day":
+                data = day;
+                break;
+              case "Week":
+                data = week;
+                break;
+              default:
+                data = month;
+            }
           });
         },
         child: Text(
@@ -79,10 +95,18 @@ class _StockLineChartState extends State<StockLineChart> {
     );
     Widget text = const Text('', style: style);
 
-    final step = data.length ~/ 8;
+    int devider = 12;
+    if (showData == "Day") {
+      devider = 24;
+    } else if (showData == "Week") {
+      devider = 18;
+    }
+    final step = data.length ~/ devider;
+
     if (value.toInt() % step == 0) {
       final index = value.toInt() ~/ step;
-      text = Text('0:${(index * 5).toString().padLeft(2, '0')}', style: style);
+
+      text = Text(((index * step) + 1).toString(), style: style);
     }
 
     return SideTitleWidget(
@@ -98,17 +122,15 @@ class _StockLineChartState extends State<StockLineChart> {
       fontWeight: FontWeight.bold,
       fontSize: 15,
     );
+    Widget text = const Text('', style: style);
+    var h = highestValue();
+    final step = h ~/ 12;
 
-    String text = const {
-          1: '10K',
-          3: '30K',
-          5: '50K',
-          7: '70K',
-          9: '90K',
-        }[value.toInt()] ??
-        '';
-
-    return Text(text, style: style, textAlign: TextAlign.left);
+    if (value.toInt() % step == 0) {
+      final index = value.toInt() ~/ step;
+      text = Text(((index * step) + 1).toString(), style: style);
+    }
+    return text;
   }
 
   LineChartData mainData() {
@@ -146,8 +168,8 @@ class _StockLineChartState extends State<StockLineChart> {
       ),
       minX: 0,
       maxX: data.length - 1,
-      minY: 0,
-      maxY: 10,
+      minY: lowestValue() - 30,
+      maxY: highestValue() + 30,
       lineBarsData: [
         LineChartBarData(
           spots: [
@@ -173,39 +195,79 @@ class _StockLineChartState extends State<StockLineChart> {
       ],
     );
   }
+
+  double highestValue() {
+    var highestValueFirst = data.values
+        .reduce((value, element) => value > element ? value : element);
+    return highestValueFirst.toDouble();
+  }
+
+  double lowestValue() {
+    var lowestValueFirst = data.values
+        .reduce((value, element) => value < element ? value : element);
+    return lowestValueFirst.toDouble();
+  }
 }
 
-final data = [
-  3.45,
-  2.14,
-  16.0,
-  1.88,
-  1.71,
-  1.85,
-  1.77,
-  1.79,
-  2.14,
-  2.25,
-  2.29,
-  2.31,
-  2.79,
-  2.54,
-  2.72,
-  2.37,
-  2.35,
-  2.41,
-  2.66,
-  2.79,
-  3.04,
-  3.58,
-  4.29,
-  3.99,
-  4.42,
+final month =
+    [225, 220, 218, 249, 287, 306, 300, 235, 208, 222, 224, 243].asMap();
+
+final week = [
+  225,
+  220,
+  218,
+  249,
+  287,
+  306,
+  300,
+  235,
+  208,
+  222,
+  224,
+  243,
+  214,
+  216,
+  216,
+  185,
+  202,
+  190,
+  212,
+  171,
+  185,
+  177,
+  179,
+  214,
+  225,
+  229,
+  266,
+  279,
+  304,
+  358,
+  429,
+  399,
+  442,
+  505,
+  501,
+  551,
+  890,
+  816,
+  561,
+  523,
+  519,
+  419,
+  372,
+  224,
+  243,
+  214,
+  216,
+  216,
+  185,
+
   // 8,
 ].asMap();
 
 //! Figure out how data works
-/*final data = [
+final day = [
   345,
   214,
   188,
@@ -491,4 +553,3 @@ final data = [
   177,
   229,
 ].asMap();
- */
