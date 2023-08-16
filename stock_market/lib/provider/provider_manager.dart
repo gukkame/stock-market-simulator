@@ -29,11 +29,12 @@ class ProviderManager extends ChangeNotifier {
 
   MarketStock? getStock(BuildContext context, String symbol) {
     var provider = Provider.of<StockProvider>(context);
-    if (provider.stocks.containsKey(symbol)) {
-      return provider.stocks[symbol];
-    }
-    return null;
+    return provider.stocks.containsKey(symbol) ? provider.stocks[symbol] : null;
   }
+
+  // void resetWebsocket(BuildContext context) {
+  //   Provider.of<StockProvider>(context, listen: false).reset();
+  // }
 
   void disposeStocks(BuildContext context) {
     Provider.of<StockProvider>(context).clear();

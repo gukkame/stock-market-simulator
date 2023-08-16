@@ -21,6 +21,7 @@ class _StockListState extends State<StockList> {
   @override
   void initState() {
     user = ProviderManager().getUser(context);
+    // ProviderManager().resetWebsocket(context);
     super.initState();
   }
 
@@ -103,8 +104,4 @@ class _StockListState extends State<StockList> {
       textAlign: TextAlign.center,
     ));
   }
-
-  // void _setErrorState(String msg) {
-  //   errorMSg = msg;
-  // }
 }

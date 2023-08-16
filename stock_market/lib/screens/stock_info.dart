@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:stock_market/provider/provider_manager.dart';
+import 'package:stock_market/utils/stock/market_stock.dart';
 
 import '../components/line_chart.dart';
 import '../components/stock_info_field.dart';
@@ -6,30 +8,17 @@ import '../utils/colors.dart';
 import '../utils/navigation.dart';
 
 class StockInfo extends StatefulWidget {
-  const StockInfo({super.key});
+  final String title;
+
+  const StockInfo({required this.title, Key? key}) : super(key: key);
 
   @override
   State<StockInfo> createState() => _StockInfoState();
 }
 
 class _StockInfoState extends State<StockInfo> {
-  String title = "error finding company";
-
-  @override
-  void didChangeDependencies() {
-    title = Arguments.from(context).arg?[0];
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
-    // title ??= "error finding company";
-
-    var fullCompanyName = "NVIDIA Corporation";
-    var stockPrice = 234.23;
-    var persentChange = -2.22;
-    var logo = "";
-
     return Padding(
       padding: const EdgeInsets.fromLTRB(30, 40, 30, 0),
       child: Column(
@@ -37,12 +26,12 @@ class _StockInfoState extends State<StockInfo> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             StockInfoField(
-              title: title,
+              title: widget.title,
             ),
             const SizedBox(
               height: 10,
             ),
-            const StockLineChart(),
+            StockLineChart(widget.title),
             const SizedBox(
               height: 35,
             ),
@@ -51,10 +40,6 @@ class _StockInfoState extends State<StockInfo> {
     );
   }
 
-  void _getStockInfo() {
-    //! Get info from DB about the stock
-    // Save info into stock class var
-  }
   Widget get _transactionBtn {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -103,12 +88,12 @@ class _StockInfoState extends State<StockInfo> {
     if (option == 0) {
       debugPrint("Buy");
       navigate(context, "/trade", args: {
-        "arg": ["buy", title]
+        "arg": ["buy", widget.title]
       });
     } else {
       debugPrint("Sell");
       navigate(context, "/trade", args: {
-        "arg": ["sell", title]
+        "arg": ["sell", widget.title]
       });
     }
   }

@@ -5,14 +5,16 @@ import '../utils/navigation.dart';
 import 'container.dart';
 
 class StockMarketField extends StatefulWidget {
-  StockMarketField(
+  final String companyTitle;
+  final double sellPrice;
+  final double buyPrice;
+
+  const StockMarketField(
       {super.key,
       required this.companyTitle,
       required this.sellPrice,
       required this.buyPrice});
-  String companyTitle;
-  double sellPrice;
-  double buyPrice;
+      
   @override
   State<StockMarketField> createState() => _StockFieldState();
 }
@@ -60,7 +62,7 @@ class _StockFieldState extends State<StockMarketField> {
     debugPrint("Company tapped");
     debugPrint(widget.companyTitle);
     navigate(context, "/stock-info", args: {
-      "arg": [widget.companyTitle]
+      "symbol": widget.companyTitle
     });
   }
 

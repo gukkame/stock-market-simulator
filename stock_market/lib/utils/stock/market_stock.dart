@@ -14,6 +14,7 @@ class MarketStock {
   double get volume => _data.volume;
   String get image => _profile.logo;
   String get name => _profile.name;
+  String get currency => _profile.currency;
 
   void updateFromJson(Map<String, dynamic> json) {
     _data.updateFromJson(json);

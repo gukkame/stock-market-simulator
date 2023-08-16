@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../provider/provider_manager.dart';
+import '../utils/stock/market_stock.dart';
+
 class StockInfoField extends StatefulWidget {
   const StockInfoField({
     super.key,
@@ -12,13 +15,15 @@ class StockInfoField extends StatefulWidget {
 }
 
 class _StockInfoFieldState extends State<StockInfoField> {
-  var fullCompanyName = "NVIDIA Corporation";
-  var stockPrice = 234.23;
-  var persentChange = -2.22;
-  var logo = "";
+  // var fullCompanyName = "NVIDIA Corporation";
+  // var stockPrice = 234.23;
+  // var presentChange = -2.22;
+  // var logo = "";
 
   @override
   Widget build(BuildContext context) {
+    MarketStock? stock = ProviderManager().getStock(context, widget.title);
+
     return Container(
       height: 100,
       decoration: BoxDecoration(
@@ -30,12 +35,12 @@ class _StockInfoFieldState extends State<StockInfoField> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            widget.title,
+            stock == null ? "Loading..." : widget.title,
             style: const TextStyle(
                 fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
           ),
           Text(
-            fullCompanyName,
+            stock == null ? "Loading..." : stock.name,
             style: const TextStyle(color: Colors.grey),
           ),
           const SizedBox(
@@ -47,16 +52,19 @@ class _StockInfoFieldState extends State<StockInfoField> {
             textBaseline: TextBaseline.ideographic,
             children: [
               Text(
-                stockPrice.toString(),
+                stock == null
+                    ? "Loading..."
+                    : "${stock.buyPrice.toString()} ${stock.currency}",
+                // stockPrice.toString(),
                 style: const TextStyle(fontSize: 29, color: Colors.white),
               ),
               const SizedBox(
                 width: 10,
               ),
-              Text(
-                "$persentChange %",
-                style: const TextStyle(fontSize: 14, color: Colors.white),
-              ),
+              // Text(
+              //   "$presentChange %",
+              //   style: const TextStyle(fontSize: 14, color: Colors.white),
+              // ),
             ],
           )
         ],

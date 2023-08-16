@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:stock_market/utils/stock/market_stock.dart';
 import 'package:web_socket_channel/io.dart';
@@ -13,7 +15,11 @@ var test =
 class StockProvider with ChangeNotifier {
   static const String baseUrl = "https://finnhub.io/api/v1";
   static const String wsUrl = "wss://ws.finnhub.io";
-  static const String apiToken = "cj8d6q1r01qlegoku00gcj8d6q1r01qlegoku010";
+  static const String _apiToken = "cj8d6q1r01qlegoku00gcj8d6q1r01qlegoku010";
+  late IOWebSocketChannel channel;
+  Timer? subscriptionTimer;
+  bool isWebSocketConnected = false;
+  Map<String, MarketStock> stocks = {};
   static const List<String> symbols = [
     'AAPL',
     'MSFT',
@@ -36,14 +42,13 @@ class StockProvider with ChangeNotifier {
     'HD',
     'MRK',
   ];
-  late IOWebSocketChannel channel;
-  Map<String, MarketStock> stocks = {};
 
   Future<void> init() async {
+    debugPrint("Initializing stock websocket connection...");
     if (stocks.isNotEmpty) return;
 
     // Create the WebSocket channel
-    const String wsLink = '$wsUrl?token=$apiToken';
+    const String wsLink = '$wsUrl?token=$_apiToken';
     try {
       channel = IOWebSocketChannel.connect(wsLink);
     } catch (e) {
@@ -56,28 +61,21 @@ class StockProvider with ChangeNotifier {
       StockTradeData stock = await _getStockTradeData(symbol);
       stocks[symbol] = MarketStock(data: stock, profile: profile);
 
+      await Future.delayed(const Duration(milliseconds: 200));
+
       channel.sink.add('{"type":"subscribe","symbol":"$symbol"}');
+      debugPrint(stocks[symbol].toString());
     }
 
-    channel.stream.listen((message) {
-      Map<String, dynamic> jsonData = jsonDecode(message);
-      if (jsonData["data"] != null) {
-        for (Map<String, dynamic> stock in jsonData["data"]) {
-          if (!stock.containsKey("s") || stock["s"] is! String) {
-            throw Exception(
-                "Given json data has a bad symbol: $stock ${!stock.containsKey("s")} ${stock["s"] is! String}");
-          }
-          stocks[stock["s"]]?.updateFromJson(stock);
-        }
-        notifyListeners();
-      }
-    });
+    _setListener();
     notifyListeners();
+
+    debugPrint("WebSocket connection status: $isWebSocketConnected");
   }
 
   Future<SymbolProfile> _getSymbolProfile(String symbol,
       [int fallback = 0]) async {
-    var profileLink = "$baseUrl/stock/profile2?symbol=$symbol&token=$apiToken";
+    var profileLink = "$baseUrl/stock/profile2?symbol=$symbol&token=$_apiToken";
     var resp = await http.get(Uri.parse(profileLink));
 
     switch (resp.statusCode) {
@@ -101,7 +99,7 @@ class StockProvider with ChangeNotifier {
   Future<StockTradeData> _getStockTradeData(String symbol,
       [int fallback = 0]) async {
     var stock = StockTradeData(symbol: symbol);
-    var stockLink = "$baseUrl/quote?symbol=$symbol&token=$apiToken";
+    var stockLink = "$baseUrl/quote?symbol=$symbol&token=$_apiToken";
     var resp = await http.get(Uri.parse(stockLink));
 
     switch (resp.statusCode) {
@@ -123,46 +121,73 @@ class StockProvider with ChangeNotifier {
     }
   }
 
-  void open() {
-    // Close the existing WebSocket connection if it's open
-    if (channel.closeCode != null) {
-      channel.sink.close();
-    }
+  void _setListener() {
+    channel.stream.listen(
+      (message) {
+        Map<String, dynamic> jsonData = jsonDecode(message);
+        if (jsonData["data"] != null) {
+          for (Map<String, dynamic> stock in jsonData["data"]) {
+            if (!stock.containsKey("s") || stock["s"] is! String) {
+              throw Exception(
+                  "Given json data has a bad symbol: $stock ${!stock.containsKey("s")} ${stock["s"] is! String}");
+            }
+            stocks[stock["s"]]?.updateFromJson(stock);
+          }
+          debugPrint("Pinged");
+          notifyListeners();
+        }
+      },
+      onError: (error) {
+        debugPrint(error.toString());
+        Future.delayed(const Duration(seconds: 1));
+        debugPrint("setting new listener");
+        _setListener();
+      },
+    );
+  }
 
-    // Re-create the WebSocket channel
-    const String wsLink = '$wsUrl?token=$apiToken';
+  void open() {
+    debugPrint("close code ${channel.closeCode}");
+    if (channel.closeCode == null) return;
+
+    // Create the WebSocket channel
+    const String wsLink = '$wsUrl?token=$_apiToken';
     try {
       channel = IOWebSocketChannel.connect(wsLink);
     } catch (e) {
       throw Exception(e);
     }
 
-    // Re-subscribe to the symbols
     for (var symbol in symbols) {
       channel.sink.add('{"type":"subscribe","symbol":"$symbol"}');
     }
+    // // Start sending subscription messages at a controlled rate
+    // subscriptionTimer ??= Timer.periodic(const Duration(seconds: 1), (timer) {
+    //   _checkWebSocketConnection();
 
-    // Re-register the stream listener
-    channel.stream.listen((message) {
-      Map<String, dynamic> jsonData = jsonDecode(message);
-      if (jsonData["data"] != null) {
-        for (Map<String, dynamic> stock in jsonData["data"]) {
-          if (!stock.containsKey("s") || stock["s"] is! String) {
-            throw Exception(
-                "Given json data has a bad symbol: $stock ${!stock.containsKey("s")} ${stock["s"] is! String}");
-          }
-          stocks[stock["s"]]?.updateFromJson(stock);
-        }
-        notifyListeners();
-      }
-    });
+    // });
 
-    // Notify listeners that the WebSocket connection has been reopened
+    _setListener();
+
+    // Notify listeners that the WebSocket connection has been opened
     notifyListeners();
   }
 
+  // void _checkWebSocketConnection() {
+  //   if (!isWebSocketConnected || (channel.closeCode != null)) {
+  //     reset();
+  //   }
+  // }
+
   void close() {
+    // subscriptionTimer?.cancel();
     channel.sink.close();
+  }
+
+  void reset() async {
+    close();
+    await Future.delayed(const Duration(seconds: 2));
+    open();
   }
 
   void clear() {

@@ -227,6 +227,7 @@ class _LogInState extends State<LogIn> {
   void _redirect() {
     debugPrint("logged in successfully! redirecting...");
     navigate(context, "/stocks");
+    // navigate(context, "/stock-info", args: {"symbol": "AAPL"});
   }
 
   @override

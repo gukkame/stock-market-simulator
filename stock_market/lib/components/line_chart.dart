@@ -1,11 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/colors.dart';
+import '../utils/stock/stock_history.dart';
 
 class StockLineChart extends StatefulWidget {
-  const StockLineChart({super.key});
+  final String title;
+  const StockLineChart(this.title, {super.key});
 
   @override
   State<StockLineChart> createState() => _StockLineChartState();
@@ -18,6 +19,23 @@ class _StockLineChartState extends State<StockLineChart> {
   ];
   Map<int, double> data = month;
   String showData = "Month";
+  late StockHistory _history;
+  bool _loading = true;
+
+  @override
+  void initState() {
+    _loadStockData();
+    super.initState();
+  }
+
+  void _loadStockData() async {
+    _history = await StockHistory().init(widget.title);
+    setState(() {
+      _loading = false;
+      data = _history.daily.asMap();
+      showData = "Day";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,20 +77,22 @@ class _StockLineChartState extends State<StockLineChart> {
       height: 34,
       child: TextButton(
         onPressed: () {
-          setState(() {
-            showData = period;
-            // data = period.toLowerCase()
-            switch (period) {
-              case "Day":
-                // data = day;
-                break;
-              case "Week":
-                // data = week;
-                break;
-              default:
-                data = month;
-            }
-          });
+          if (!_loading) {
+            setState(() {
+              showData = period;
+
+              switch (period) {
+                case "Day":
+                  data = _loading ? month : _history.daily.asMap();
+                  break;
+                case "Week":
+                  data = _loading ? month : _history.weekly.asMap();
+                  break;
+                default:
+                  data = _loading ? month : _history.monthly.asMap();
+              }
+            });
+          }
         },
         child: Text(
           period,
