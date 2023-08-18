@@ -188,8 +188,8 @@ class _StockLineChartState extends State<StockLineChart> {
       ),
       minX: 0,
       maxX: data.length - 1,
-      minY: lowestValue() - 30,
-      maxY: highestValue() + 30,
+      minY: lowestValue() - 0,
+      maxY: highestValue() + 0,
       lineBarsData: [
         LineChartBarData(
           spots: [
