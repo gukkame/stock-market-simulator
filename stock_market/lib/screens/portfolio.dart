@@ -4,7 +4,6 @@ import 'package:stock_market/provider/wallet_provider.dart';
 import '../components/stock_portfolio_field.dart';
 import '../provider/provider_manager.dart';
 import '../utils/colors.dart';
-import '../utils/stock/user_stock.dart';
 import '../utils/user.dart';
 
 class Portfolio extends StatefulWidget {
@@ -18,7 +17,6 @@ class _PortfolioState extends State<Portfolio> {
   late User user;
   late WalletProvider wallet;
   String errorMSg = "Stocks not found!";
-  List<UserStock> allStocks = [];
 
   @override
   void initState() {
@@ -28,7 +26,7 @@ class _PortfolioState extends State<Portfolio> {
 
   @override
   void didChangeDependencies() {
-    wallet = ProviderManager().getWallet(context);
+    wallet = ProviderManager().getWallet(context, listen: true);
     super.didChangeDependencies();
   }
 
@@ -72,12 +70,12 @@ class _PortfolioState extends State<Portfolio> {
     return ListView(
       scrollDirection: Axis.vertical,
       children: [
-        if (allStocks.isNotEmpty)
-          for (var stock in allStocks)
+        if (wallet.holding.isNotEmpty)
+          for (var stock in wallet.holding)
             StockPortfolioField(
               companyTitle: stock.symbol,
               amount: stock.amount,
-              sellPrice: stock.price[0],
+              sellPrice: stock.price,
             )
         else
           _setInfoWidget

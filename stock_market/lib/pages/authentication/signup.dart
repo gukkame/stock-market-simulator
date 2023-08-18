@@ -241,8 +241,8 @@ class _AddNoteState extends State<SignUp> {
   void _saveUser() {
     debugPrint("User registered successfully! redirecting...");
     ProviderManager().setUser(context, widget.user);
-    ProviderManager().initStocks(context);
     ProviderManager().initWallet(context, widget.user);
+    ProviderManager().initStocks(context);
     navigate(context, "/stock");
   }
 

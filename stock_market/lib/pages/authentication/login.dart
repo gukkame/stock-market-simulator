@@ -220,8 +220,8 @@ class _LogInState extends State<LogIn> {
 
   void _setUser() {
     ProviderManager().setUser(context, widget.user);
-    ProviderManager().initStocks(context);
     ProviderManager().initWallet(context, widget.user);
+    ProviderManager().initStocks(context);
   }
 
   void _redirect() {
