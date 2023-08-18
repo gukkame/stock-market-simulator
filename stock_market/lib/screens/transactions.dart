@@ -39,7 +39,7 @@ class _TransactionsState extends State<Transactions> {
   @override
   Widget build(BuildContext context) {
     debugPrint(widget.page);
-    wallet = ProviderManager().getWallet(context);
+    wallet = ProviderManager().getWallet(context, listen: true);
     return Padding(
       padding: const EdgeInsets.fromLTRB(30, 40, 30, 0),
       child: Column(
@@ -89,17 +89,6 @@ class _TransactionsState extends State<Transactions> {
   }
 
   void _showDialog(BuildContext context) {
-    if (_totalBuyPrice <= wallet.total) {
-      ProviderManager().getWallet(context).buyStock(
-            context,
-            UserStock(
-              symbol: widget.companyTitle,
-              date: Timestamp.now(),
-              value: widget.stock.buyPrice * (widget.page == "buy" ? 1 : -1),
-              amount: _currentCount.toDouble(),
-            ),
-          );
-    }
     showDialog(
         barrierColor: Colors.black45,
         context: context,
@@ -149,6 +138,18 @@ class _TransactionsState extends State<Transactions> {
             ),
           );
         });
+
+    if (_totalBuyPrice <= wallet.total) {
+      ProviderManager().getWallet(context).buyStock(
+            context,
+            UserStock(
+              symbol: widget.companyTitle,
+              date: Timestamp.now(),
+              value: widget.stock.buyPrice * (widget.page == "buy" ? 1 : -1),
+              amount: _currentCount.toDouble(),
+            ),
+          );
+    }
   }
 
   Widget get _setOrderBtn {

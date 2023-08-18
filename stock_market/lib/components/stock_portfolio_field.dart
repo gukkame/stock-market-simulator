@@ -1,27 +1,30 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:stock_market/provider/provider_manager.dart';
+import 'package:stock_market/utils/stock/market_stock.dart';
+import 'package:stock_market/utils/stock/user_stock.dart';
 import 'container.dart';
 
 class StockPortfolioField extends StatefulWidget {
-  StockPortfolioField({
-    super.key,
-    required this.companyTitle,
-    required this.amount,
-    required this.sellPrice,
-  });
-  String companyTitle;
-  double amount;
-  double sellPrice;
+  const StockPortfolioField(
+      {super.key, required this.companyTitle, required this.stock});
+  final String companyTitle;
+  final UserStock stock;
   @override
   State<StockPortfolioField> createState() => _StockFieldState();
 }
 
-//On StockList page and porfolio page
-//On Porfolio, I have company price, units bought, value
+//On StockList page and portfolio page
+//On Portfolio, I have company price, units bought, value
 //on StockList I have company, Buy, Sell buttons, on top of them are price at sell, at buy
 
 class _StockFieldState extends State<StockPortfolioField> {
+  late MarketStock marketStock;
+
   @override
   Widget build(BuildContext context) {
+    marketStock =
+        ProviderManager().getStock(context, widget.companyTitle) as MarketStock;
     return Column(
       children: [
         const SizedBox(
@@ -38,8 +41,8 @@ class _StockFieldState extends State<StockPortfolioField> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     _textStyle(widget.companyTitle, 18),
-                    _textStyle(widget.amount.toString(), 16),
-                    _textStyle(widget.sellPrice.toString(), 16),
+                    _textStyle(widget.stock.amount.toString(), 16),
+                    _textStyle((widget.stock.price).toString(), 16),
                   ],
                 )),
           ),
@@ -48,7 +51,7 @@ class _StockFieldState extends State<StockPortfolioField> {
     );
   }
 
-  Widget _textStyle(String title, double fontsize) {
+  Widget _textStyle(String title, double fontSize) {
     return SizedBox(
       width: 60,
       height: 40,
@@ -58,7 +61,7 @@ class _StockFieldState extends State<StockPortfolioField> {
         child: Text(
           title,
           style: TextStyle(
-            fontSize: fontsize,
+            fontSize: fontSize,
             fontWeight: FontWeight.w600,
             color: Colors.grey.shade800,
           ),
@@ -68,8 +71,8 @@ class _StockFieldState extends State<StockPortfolioField> {
   }
 
   void _onStockTap() {
-    debugPrint("Company tapped");
-    debugPrint(widget.companyTitle);
-    //  navigate(context, "/portfolio-stock");
+    ProviderManager()
+        .getWallet(context)
+        .sellStock(context, marketStock.sellPrice, widget.stock);
   }
 }

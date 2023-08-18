@@ -41,7 +41,9 @@ class _PortfolioState extends State<Portfolio> {
               child: !wallet.hasInit
                   ? const CircularProgressIndicator()
                   : wallet.holding.isEmpty
-                      ? const Text("You have to spend some to make some.")
+                      ? const Padding(
+                          padding: EdgeInsets.only(top: 15),
+                          child: Text("You have to spend some to make some."))
                       : _portfolioView)
         ],
       ),
@@ -74,8 +76,7 @@ class _PortfolioState extends State<Portfolio> {
           for (var stock in wallet.holding)
             StockPortfolioField(
               companyTitle: stock.symbol,
-              amount: stock.amount,
-              sellPrice: stock.price,
+              stock: stock,
             )
         else
           _setInfoWidget

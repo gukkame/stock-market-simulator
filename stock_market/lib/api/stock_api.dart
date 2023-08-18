@@ -14,24 +14,26 @@ class StockApi extends GeneralApi {
       collection: "wallet",
       path: Convert.encode(user.email),
       data: {
-        if (stock.price > 0) "total": FieldValue.increment(-(stock.price)),
+        "total": FieldValue.increment(-(stock.price.abs())),
         "holding": FieldValue.arrayUnion([stock.data]),
       },
     );
   }
 
-  Future<void> sellStock(
-      BuildContext context, double price, UserStock stock) async {
-    var user = ProviderManager().getUser(context);
-    await write(
-      collection: "wallet",
-      path: Convert.encode(user.email),
-      data: {
-        "total": FieldValue.increment(price),
-        "holding": FieldValue.arrayRemove([stock.data]),
-      },
-    );
-  }
+Future<void> sellStock(
+    BuildContext context, double price, UserStock stock) async {
+  var user = ProviderManager().getUser(context);
+  var finalPrice = stock.amount * price;
+
+  await update(
+    collection: "wallet",
+    path: Convert.encode(user.email),
+    data: {
+      "total": FieldValue.increment(finalPrice),
+      "holding": FieldValue.arrayRemove([stock.data]), // Remove the specific stock data
+    },
+  );
+}
 
   Future<Map<String, dynamic>> getWalletData(User user) async {
     debugPrint(Convert.encode(user.email));
