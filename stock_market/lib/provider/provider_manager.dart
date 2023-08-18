@@ -46,8 +46,8 @@ class ProviderManager extends ChangeNotifier {
     return Provider.of<WalletProvider>(context, listen: false).init(user);
   }
 
-  WalletProvider getWallet(BuildContext context) {
-    return Provider.of<WalletProvider>(context);
+  WalletProvider getWallet(BuildContext context, {bool listen = false}) {
+    return Provider.of<WalletProvider>(context, listen: listen);
   }
 
   /* Functionality */

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:stock_market/provider/provider_manager.dart';
+import 'package:stock_market/provider/wallet_provider.dart';
 
 import '../utils/navigation.dart';
 import '../utils/colors.dart';
@@ -13,13 +15,15 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   late int _selectedIndex;
+  late WalletProvider wallet;
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
     switch (_selectedIndex) {
       case 0:
-          navigate(context, "/stocks");
+        navigate(context, "/stocks");
         break;
       case 1:
         navigate(context, "/stocks");
@@ -33,6 +37,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     _selectedIndex = widget.index;
+    wallet = ProviderManager().getWallet(context, listen: true);
     return BottomNavigationBar(
       currentIndex: 0,
       type: BottomNavigationBarType.fixed,
@@ -40,27 +45,26 @@ class _BottomNavBarState extends State<BottomNavBar> {
       selectedIconTheme: const IconThemeData(color: primeColor),
       selectedItemColor: primeColor,
       unselectedItemColor: primeColor,
-      // unselectedFontSize: 10,
       unselectedLabelStyle: const TextStyle(fontSize: 13, height: 0),
       showUnselectedLabels: true,
       enableFeedback: false,
       selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-      items: const <BottomNavigationBarItem>[
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(
+          icon: const Icon(
             Icons.bar_chart,
             size: 0,
           ),
-          label: '  \$ 1 000 000',
+          label: '  \$ ${wallet.total}',
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(
             Icons.bar_chart,
             size: 28,
           ),
           label: 'Stock List',
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.pie_chart, size: 28),
           label: 'Portfolio',
         ),

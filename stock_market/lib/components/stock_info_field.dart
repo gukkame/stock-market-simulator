@@ -15,11 +15,6 @@ class StockInfoField extends StatefulWidget {
 }
 
 class _StockInfoFieldState extends State<StockInfoField> {
-  // var fullCompanyName = "NVIDIA Corporation";
-  // var stockPrice = 234.23;
-  // var presentChange = -2.22;
-  // var logo = "";
-
   @override
   Widget build(BuildContext context) {
     MarketStock? stock = ProviderManager().getStock(context, widget.title);

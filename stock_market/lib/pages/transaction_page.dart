@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:stock_market/provider/provider_manager.dart';
 
 import '../screens/transactions.dart';
 import '../utils/colors.dart';
 import '../utils/navigation.dart';
+import '../utils/stock/market_stock.dart';
 
 class TransactionPage extends StatefulWidget {
   const TransactionPage({super.key});
@@ -14,11 +16,17 @@ class TransactionPage extends StatefulWidget {
 class _TransactionPageState extends State<TransactionPage> {
   late String page;
   late String companyTitle;
+  late MarketStock stock;
 
   @override
   void didChangeDependencies() {
     page = Arguments.from(context).arg![0];
     companyTitle = Arguments.from(context).arg![1];
+
+    var mStock = ProviderManager().getStock(context, companyTitle);
+    if (mStock == null) throw Exception("couldn't find company $companyTitle");
+    stock = mStock;
+    
     super.didChangeDependencies();
   }
 
@@ -35,6 +43,7 @@ class _TransactionPageState extends State<TransactionPage> {
       body: Transactions(
         page: page,
         companyTitle: companyTitle,
+        stock: stock,
       ),
     );
   }
@@ -77,7 +86,10 @@ class _TransactionPageState extends State<TransactionPage> {
               ),
             ),
           ),
-          const SizedBox(width: 15,)]
+          const SizedBox(
+            width: 15,
+          )
+        ]
       ],
     );
   }

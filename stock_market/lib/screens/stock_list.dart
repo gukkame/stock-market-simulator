@@ -21,7 +21,6 @@ class _StockListState extends State<StockList> {
   @override
   void initState() {
     user = ProviderManager().getUser(context);
-    // ProviderManager().resetWebsocket(context);
     super.initState();
   }
 

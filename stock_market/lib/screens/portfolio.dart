@@ -23,7 +23,6 @@ class _PortfolioState extends State<Portfolio> {
   @override
   void initState() {
     user = ProviderManager().getUser(context);
-
     super.initState();
   }
 

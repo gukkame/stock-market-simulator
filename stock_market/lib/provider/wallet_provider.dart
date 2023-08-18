@@ -15,17 +15,18 @@ class WalletProvider extends ChangeNotifier {
   double get total => _total;
   List<UserStock> get holding => _holding;
 
-  Future<void> buyStock(User user, UserStock stock) async {
+  Future<void> buyStock(BuildContext context, UserStock stock) async {
     _total = _total - stock.price;
     _holding.add(stock);
-    await _api.buyStock(user, stock);
+    await _api.buyStock(context, stock);
     notifyListeners();
   }
 
-  Future<void> sellStock(User user, double price, UserStock stock) async {
+  Future<void> sellStock(
+      BuildContext context, double price, UserStock stock) async {
     _total = _total + price;
     _holding.removeWhere((e) => e == stock);
-    await _api.sellStock(user, price, stock);
+    await _api.sellStock(context, price, stock);
     notifyListeners();
   }
 

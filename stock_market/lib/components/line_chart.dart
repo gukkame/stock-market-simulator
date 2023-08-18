@@ -17,15 +17,15 @@ class _StockLineChartState extends State<StockLineChart> {
     secondaryColor,
     primeColorTrans.withOpacity(0.0),
   ];
+  late StockHistory _history;
   Map<int, double> data = month;
   String showData = "Month";
-  late StockHistory _history;
   bool _loading = true;
 
   @override
-  void initState() {
+  void didChangeDependencies() {
     _loadStockData();
-    super.initState();
+    super.didChangeDependencies();
   }
 
   void _loadStockData() async {

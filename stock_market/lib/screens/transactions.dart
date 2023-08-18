@@ -1,15 +1,26 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:stock_market/api/stock_api.dart';
+import 'package:stock_market/provider/provider_manager.dart';
+import 'package:stock_market/provider/wallet_provider.dart';
 import 'package:stock_market/utils/colors.dart';
+import 'package:stock_market/utils/stock/market_stock.dart';
+import 'package:stock_market/utils/stock/user_stock.dart';
 
 import '../components/container.dart';
 import '../components/stock_info_field.dart';
 
 class Transactions extends StatefulWidget {
-  Transactions({super.key, required this.page, required this.companyTitle});
+  final String page;
+  final String companyTitle;
+  final MarketStock stock;
 
-  late String page;
-  late String companyTitle;
+  const Transactions({
+    super.key,
+    required this.page,
+    required this.companyTitle,
+    required this.stock,
+  });
 
   @override
   State<Transactions> createState() => _TransactionsState();
@@ -17,9 +28,18 @@ class Transactions extends StatefulWidget {
 
 class _TransactionsState extends State<Transactions> {
   int _currentCount = 1000;
+  late WalletProvider wallet;
+
+  double get _totalBuyPrice {
+    return widget.stock.buyPrice *
+        _currentCount *
+        (widget.page == "buy" ? 1 : -1);
+  }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(widget.page);
+    wallet = ProviderManager().getWallet(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(30, 40, 30, 0),
       child: Column(
@@ -44,9 +64,9 @@ class _TransactionsState extends State<Transactions> {
           const SizedBox(
             height: 10,
           ),
-          const Text(
-            "Units (amount/price) XXX \$",
-            style: TextStyle(
+          Text(
+            "Units (amount/price) $_totalBuyPrice \$",
+            style: const TextStyle(
                 fontSize: 14,
                 color: Colors.white30,
                 fontWeight: FontWeight.w300),
@@ -54,9 +74,9 @@ class _TransactionsState extends State<Transactions> {
           const SizedBox(
             height: 260,
           ),
-          const Text(
-            "Cash Available  XXX \$",
-            style: TextStyle(
+          Text(
+            "Cash Available  ${wallet.total} \$",
+            style: const TextStyle(
                 fontSize: 18, color: Colors.white, fontWeight: FontWeight.w300),
           ),
           const SizedBox(
@@ -69,6 +89,17 @@ class _TransactionsState extends State<Transactions> {
   }
 
   void _showDialog(BuildContext context) {
+    if (_totalBuyPrice <= wallet.total) {
+      ProviderManager().getWallet(context).buyStock(
+            context,
+            UserStock(
+              symbol: widget.companyTitle,
+              date: Timestamp.now(),
+              value: widget.stock.buyPrice * (widget.page == "buy" ? 1 : -1),
+              amount: _currentCount.toDouble(),
+            ),
+          );
+    }
     showDialog(
         barrierColor: Colors.black45,
         context: context,
@@ -86,15 +117,17 @@ class _TransactionsState extends State<Transactions> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Order filled",
-                    style: TextStyle(
+                  Text(
+                    _totalBuyPrice <= wallet.total
+                        ? "Order filled"
+                        : "Wallet balance too low",
+                    style: const TextStyle(
                         color: Colors.white,
                         fontSize: 17,
                         fontWeight: FontWeight.w300),
                   ),
                   Text(
-                    "${widget.page.toUpperCase()} $_currentCount \$",
+                    "${widget.page.toUpperCase()} $_totalBuyPrice \$",
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -155,8 +188,8 @@ class _TransactionsState extends State<Transactions> {
     });
   }
 
-  void dicrement() {
-    debugPrint("decriment");
+  void decrement() {
+    debugPrint("decrement");
     debugPrint(_currentCount.toString());
     setState(() {
       if (_currentCount > 0) {
@@ -174,19 +207,19 @@ class _TransactionsState extends State<Transactions> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _createIncrementDicrementButton(Icons.remove, dicrement),
+          _createIncrementButton(Icons.remove, decrement),
           Text(
             _currentCount.toString(),
             style: const TextStyle(
                 color: Colors.white, fontWeight: FontWeight.w300, fontSize: 20),
           ),
-          _createIncrementDicrementButton(Icons.add, increment),
+          _createIncrementButton(Icons.add, increment),
         ],
       ),
     );
   }
 
-  Widget _createIncrementDicrementButton(IconData icon, Function onPressed) {
+  Widget _createIncrementButton(IconData icon, Function onPressed) {
     return RawMaterialButton(
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       constraints: const BoxConstraints(minWidth: 42.0, minHeight: 42.0),
