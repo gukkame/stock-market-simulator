@@ -38,7 +38,7 @@ class StockHistory {
       resolution: "W",
     );
     _monthly = await _getStockHistory(
-      DateTime.now().subtract(const Duration(days: 364)),
+      DateTime.now().subtract(const Duration(days: 331)),
       DateTime.now(),
       resolution: "M",
     );

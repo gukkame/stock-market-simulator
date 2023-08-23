@@ -16,7 +16,7 @@ class Portfolio extends StatefulWidget {
 class _PortfolioState extends State<Portfolio> {
   late User user;
   late WalletProvider wallet;
-  String errorMSg = "Stocks not found!";
+  String errorMSg = "";
 
   @override
   void initState() {
@@ -62,6 +62,7 @@ class _PortfolioState extends State<Portfolio> {
             children: <Widget>[
               _titleStyle("Assets"),
               _titleStyle("Units"),
+              _titleStyle("Open \$"),
               _titleStyle("Value \$"),
             ]),
       ),
@@ -72,14 +73,16 @@ class _PortfolioState extends State<Portfolio> {
     return ListView(
       scrollDirection: Axis.vertical,
       children: [
-        if (wallet.holding.isNotEmpty)
+        if (wallet.holding.isNotEmpty) ...[
           for (var stock in wallet.holding)
             StockPortfolioField(
               companyTitle: stock.symbol,
               stock: stock,
-            )
-        else
-          _setInfoWidget
+            ),
+            const SizedBox(height: 20,),
+          _setInfoWidget("Click on stock to close the trade"),
+        ] else
+          _setInfoWidget("Stocks not found!")
       ],
     );
   }
@@ -92,10 +95,10 @@ class _PortfolioState extends State<Portfolio> {
     );
   }
 
-  Widget get _setInfoWidget {
+  Widget _setInfoWidget(String text) {
     return Center(
         child: Text(
-      errorMSg,
+      text,
       style: const TextStyle(
         color: primeColorTrans,
         fontSize: 20,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../components/bottom_nav_bar.dart';
+import '../provider/provider_manager.dart';
 import '../screens/portfolio.dart';
+import '../utils/navigation.dart';
 
 class PortfolioPage extends StatefulWidget {
   const PortfolioPage({super.key});
@@ -34,7 +36,12 @@ class _PortfolioPageState extends State<PortfolioPage> {
     );
   }
 
-  void logOut() {
-    debugPrint("logOut");
+   void logOut() async {
+    await ProviderManager().logOut(context);
+    redirect();
+  }
+
+  void redirect() {
+    navigate(context, "/login");
   }
 }

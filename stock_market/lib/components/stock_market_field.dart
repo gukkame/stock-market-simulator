@@ -6,22 +6,18 @@ import 'container.dart';
 
 class StockMarketField extends StatefulWidget {
   final String companyTitle;
-  final double sellPrice;
+  // final double sellPrice;
   final double buyPrice;
 
   const StockMarketField(
       {super.key,
       required this.companyTitle,
-      required this.sellPrice,
+      // required this.sellPrice,
       required this.buyPrice});
-      
+
   @override
   State<StockMarketField> createState() => _StockFieldState();
 }
-
-//On StockList page and porfolio page
-//On Porfolio, I have company price, units bought, value
-//on StockList I have company, Buy, Sell buttons, on top of them are price at sell, at buy
 
 class _StockFieldState extends State<StockMarketField> {
   @override
@@ -61,15 +57,13 @@ class _StockFieldState extends State<StockMarketField> {
   void _onTitleTap() {
     debugPrint("Company tapped");
     debugPrint(widget.companyTitle);
-    navigate(context, "/stock-info", args: {
-      "symbol": widget.companyTitle
-    });
+    navigate(context, "/stock-info", args: {"symbol": widget.companyTitle});
   }
 
   Widget get _transactionBtn {
     return Row(
       children: [
-        for (int i = 0; i < 2; i++) ...[
+        // for (int i = 0; i < 2; i++) ...[
           SizedBox(
             width: 85,
             height: 40,
@@ -80,7 +74,7 @@ class _StockFieldState extends State<StockMarketField> {
                     padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     alignment: Alignment.centerRight),
-                onPressed: () => onTap(i),
+                onPressed: () => onTap(1),
                 child: Container(
                   decoration: BoxDecoration(
                       color: primeColorTrans,
@@ -89,9 +83,10 @@ class _StockFieldState extends State<StockMarketField> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 23.0, vertical: 6.0),
                     child: Text(
-                      i == 0
-                          ? (widget.sellPrice).toString()
-                          : widget.buyPrice.toString(),
+                      // i == 0
+                      //     ? (widget.buyPrice).toStringAsFixed(2)
+                      //     : 
+                          widget.buyPrice.toStringAsFixed(2),
                       style: const TextStyle(
                         color: Colors.black,
                       ),
@@ -105,7 +100,7 @@ class _StockFieldState extends State<StockMarketField> {
             width: 12,
           )
         ]
-      ],
+      // ],
     );
   }
 

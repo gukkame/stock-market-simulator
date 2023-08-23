@@ -21,12 +21,12 @@ class _TransactionPageState extends State<TransactionPage> {
   @override
   void didChangeDependencies() {
     page = Arguments.from(context).arg![0];
+    debugPrint(page);
+
     companyTitle = Arguments.from(context).arg![1];
 
-    var mStock = ProviderManager().getStock(context, companyTitle);
-    if (mStock == null) throw Exception("couldn't find company $companyTitle");
-    stock = mStock;
-    
+
+
     super.didChangeDependencies();
   }
 
@@ -43,7 +43,7 @@ class _TransactionPageState extends State<TransactionPage> {
       body: Transactions(
         page: page,
         companyTitle: companyTitle,
-        stock: stock,
+        // stock: stock,
       ),
     );
   }
@@ -51,7 +51,7 @@ class _TransactionPageState extends State<TransactionPage> {
   Widget get _transactionBtn {
     return Row(
       children: [
-        for (int i = 0; i < 2; i++) ...[
+        // for (int i = 0; i < 2; i++) ...[
           SizedBox(
             width: 80,
             height: 40,
@@ -64,20 +64,21 @@ class _TransactionPageState extends State<TransactionPage> {
                   alignment: Alignment.centerRight,
                   splashFactory: NoSplash.splashFactory,
                 ),
-                onPressed: () => onTap(i),
+                onPressed: () => onTap(1),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: ((page == "buy" && i == 1) ||
-                              (page == "sell" && i == 0))
+                      color: (page == "buy") 
                           ? primeColor
                           : primeColorTrans,
                       borderRadius: BorderRadius.circular(6.0)),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(
                         horizontal: 23.0, vertical: 6.0),
                     child: Text(
-                      i == 1 ? "Buy" : "Sell",
-                      style: const TextStyle(
+                      // i == 1 ? 
+                      "Buy" ,
+                      // : "Sell",
+                      style:  TextStyle(
                         color: Colors.black,
                       ),
                     ),
@@ -90,7 +91,7 @@ class _TransactionPageState extends State<TransactionPage> {
             width: 15,
           )
         ]
-      ],
+      // ],
     );
   }
 

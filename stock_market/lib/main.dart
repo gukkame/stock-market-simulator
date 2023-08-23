@@ -37,7 +37,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => WalletProvider()),
       ],
       child: MaterialApp(
-        title: 'Map Markers',
+        title: 'Stock Simulator',
         debugShowCheckedModeBanner: false,
         initialRoute: '/login',
         routes: {

@@ -45,7 +45,7 @@ class _StockInfoState extends State<StockInfo> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        for (int i = 0; i < 2; i++) ...[
+        // for (int i = 0; i < 2; i++) ...[
           SizedBox(
             width: 100,
             child: FittedBox(
@@ -57,17 +57,19 @@ class _StockInfoState extends State<StockInfo> {
                   alignment: Alignment.centerRight,
                   splashFactory: NoSplash.splashFactory,
                 ),
-                onPressed: () => onTap(i),
+                onPressed: () => onTap(0),
                 child: Container(
                   decoration: BoxDecoration(
                       color: primeColor.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(6.0)),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
+                  child: const Padding(
+                    padding:  EdgeInsets.symmetric(
                         horizontal: 23.0, vertical: 8.0),
                     child: Text(
-                      i == 0 ? "Buy" : "Sell",
-                      style: const TextStyle(
+                      // i == 0 ? 
+                      "Buy" ,
+                      // : "Sell",
+                      style:  TextStyle(
                         color: Colors.white,
                       ),
                     ),
@@ -80,7 +82,7 @@ class _StockInfoState extends State<StockInfo> {
             width: 20,
           )
         ]
-      ],
+      // ],
     );
   }
 

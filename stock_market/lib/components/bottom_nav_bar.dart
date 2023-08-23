@@ -55,7 +55,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             Icons.bar_chart,
             size: 0,
           ),
-          label: '  \$ ${wallet.total}',
+          label: '  \$ ${wallet.total.toStringAsFixed(2)}',
         ),
         const BottomNavigationBarItem(
           icon: Icon(

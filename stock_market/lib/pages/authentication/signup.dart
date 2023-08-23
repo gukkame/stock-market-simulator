@@ -243,7 +243,7 @@ class _AddNoteState extends State<SignUp> {
     ProviderManager().setUser(context, widget.user);
     ProviderManager().initWallet(context, widget.user);
     ProviderManager().initStocks(context);
-    navigate(context, "/stock");
+    navigate(context, "/stocks");
   }
 
   void _removeAllNegativeCheckers() {

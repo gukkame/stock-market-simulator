@@ -51,7 +51,7 @@ class _StockListState extends State<StockList> {
             StockMarketField(
               companyTitle: stock.symbol,
               buyPrice: stock.buyPrice,
-              sellPrice: stock.sellPrice,
+              // sellPrice: stock.sellPrice,
             )
         else
           _setInfoWidget
@@ -66,28 +66,29 @@ class _StockListState extends State<StockList> {
       child: ListTile(
         onTap: null,
         title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               _titleStyle("Company"),
-              const SizedBox(
-                width: 65,
-              ),
-              _titleStyle("Sell"),
-              const SizedBox(
-                width: 70,
-              ),
+              // _titleStyle("Sell"),
+              // const SizedBox(
+              //   width: 70,
+              // ),
               _titleStyle("Buy"),
+              
             ]),
       ),
     );
   }
 
   Widget _titleStyle(String title) {
-    return Text(
-      title,
-      style: const TextStyle(
-          fontWeight: FontWeight.w600, color: primeColor, fontSize: 17),
+    return Padding(
+      padding: const EdgeInsets.only(right: 30),
+      child: Text(
+        title,
+        style: const TextStyle(
+            fontWeight: FontWeight.w600, color: primeColor, fontSize: 17),
+      ),
     );
   }
 

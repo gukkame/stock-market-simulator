@@ -133,7 +133,7 @@ class StockProvider with ChangeNotifier {
             }
             stocks[stock["s"]]?.updateFromJson(stock);
           }
-          debugPrint("Pinged");
+          // debugPrint("Pinged");
           notifyListeners();
         }
       },

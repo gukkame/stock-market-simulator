@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:stock_market/api/stock_api.dart';
@@ -5,6 +7,8 @@ import 'package:stock_market/provider/provider_manager.dart';
 import 'package:stock_market/provider/wallet_provider.dart';
 import 'package:stock_market/utils/colors.dart';
 import 'package:stock_market/utils/stock/market_stock.dart';
+import 'package:stock_market/utils/stock/stock_trade_data.dart';
+import 'package:stock_market/utils/stock/symbol_profile.dart';
 import 'package:stock_market/utils/stock/user_stock.dart';
 
 import '../components/container.dart';
@@ -13,13 +17,13 @@ import '../components/stock_info_field.dart';
 class Transactions extends StatefulWidget {
   final String page;
   final String companyTitle;
-  final MarketStock stock;
+  // final MarketStock stock;
 
   const Transactions({
     super.key,
     required this.page,
     required this.companyTitle,
-    required this.stock,
+    // required this.stock,
   });
 
   @override
@@ -27,18 +31,28 @@ class Transactions extends StatefulWidget {
 }
 
 class _TransactionsState extends State<Transactions> {
-  int _currentCount = 1000;
+  int _currentCount = 10;
   late WalletProvider wallet;
+  MarketStock stock =
+      MarketStock(data: StockTradeData(symbol: "x"), profile: SymbolProfile());
 
   double get _totalBuyPrice {
-    return widget.stock.buyPrice *
-        _currentCount *
-        (widget.page == "buy" ? 1 : -1);
+    return stock.buyPrice * _currentCount;
+  }
+
+  @override
+  void didChangeDependencies() {
+    var mStock = ProviderManager().getStock(context, widget.companyTitle);
+    if (mStock == null)
+      throw Exception("couldn't find company ${widget.companyTitle}");
+    stock = mStock;
+
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(widget.page);
+    // debugPrint(widget.page);
     wallet = ProviderManager().getWallet(context, listen: true);
     return Padding(
       padding: const EdgeInsets.fromLTRB(30, 40, 30, 0),
@@ -53,7 +67,7 @@ class _TransactionsState extends State<Transactions> {
             height: 60,
           ),
           Text(
-            "${widget.page.toUpperCase()}  AMOUNT  \$",
+            "${widget.page.toUpperCase()}  UNITS ",
             style: const TextStyle(
                 fontSize: 18, color: Colors.white, fontWeight: FontWeight.w300),
           ),
@@ -65,7 +79,7 @@ class _TransactionsState extends State<Transactions> {
             height: 10,
           ),
           Text(
-            "Units (amount/price) $_totalBuyPrice \$",
+            "Price ${_totalBuyPrice.toStringAsFixed(2)} \$",
             style: const TextStyle(
                 fontSize: 14,
                 color: Colors.white30,
@@ -116,7 +130,7 @@ class _TransactionsState extends State<Transactions> {
                         fontWeight: FontWeight.w300),
                   ),
                   Text(
-                    "${widget.page.toUpperCase()} $_totalBuyPrice \$",
+                    "${widget.page.toUpperCase()} ${_totalBuyPrice.toStringAsFixed(2)} \$",
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -140,15 +154,17 @@ class _TransactionsState extends State<Transactions> {
         });
 
     if (_totalBuyPrice <= wallet.total) {
-      ProviderManager().getWallet(context).buyStock(
-            context,
-            UserStock(
-              symbol: widget.companyTitle,
-              date: Timestamp.now(),
-              value: widget.stock.buyPrice * (widget.page == "buy" ? 1 : -1),
-              amount: _currentCount.toDouble(),
-            ),
-          );
+      Timer(const Duration(seconds: 1), () {
+        ProviderManager().getWallet(context).buyStock(
+              context,
+              UserStock(
+                symbol: widget.companyTitle,
+                date: Timestamp.now(),
+                value: stock.buyPrice,
+                amount: _currentCount.toDouble(),
+              ),
+            );
+      });
     }
   }
 
@@ -185,7 +201,7 @@ class _TransactionsState extends State<Transactions> {
     debugPrint("increment");
     debugPrint(_currentCount.toString());
     setState(() {
-      _currentCount += 100;
+      _currentCount += 5;
     });
   }
 
@@ -194,7 +210,7 @@ class _TransactionsState extends State<Transactions> {
     debugPrint(_currentCount.toString());
     setState(() {
       if (_currentCount > 0) {
-        _currentCount -= 100;
+        _currentCount -= 5;
       } else {
         _currentCount = 0;
       }
