@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:stock_market/api/stock_api.dart';
 import 'package:stock_market/provider/provider_manager.dart';
 import 'package:stock_market/provider/wallet_provider.dart';
 import 'package:stock_market/utils/colors.dart';
@@ -43,8 +42,9 @@ class _TransactionsState extends State<Transactions> {
   @override
   void didChangeDependencies() {
     var mStock = ProviderManager().getStock(context, widget.companyTitle);
-    if (mStock == null)
+    if (mStock == null) {
       throw Exception("couldn't find company ${widget.companyTitle}");
+    }
     stock = mStock;
 
     super.didChangeDependencies();

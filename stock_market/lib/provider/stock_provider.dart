@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:stock_market/utils/stock/market_stock.dart';
 import 'package:web_socket_channel/io.dart';

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:stock_market/provider/provider_manager.dart';
-import 'package:stock_market/utils/stock/market_stock.dart';
 
 import '../components/line_chart.dart';
 import '../components/stock_info_field.dart';

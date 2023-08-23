@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:stock_market/provider/provider_manager.dart';
 
 import '../screens/transactions.dart';
 import '../utils/colors.dart';

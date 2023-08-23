@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:stock_market/provider/provider_manager.dart';
 import 'package:stock_market/utils/stock/market_stock.dart';
